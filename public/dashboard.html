@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      if (window.location.pathname.startsWith('/world')) {
+        const base = document.createElement('base');
+        base.href = '/world/';
+        document.head.prepend(base);
+      }
+      if (window.location.pathname.includes('dashboard')) {
+        window.history.replaceState({}, '', window.location.pathname.startsWith('/world') ? '/world/dashboard' : '/dashboard');
+      }
+      if (!localStorage.getItem('user') || !localStorage.getItem('token')) {
+        const demoUser = {
+          _id: "671234567890abcdef123456",
+          userId: "100234",
+          name: "Sandeep Sah",
+          email: "sandeepsah808@gmail.com",
+          phone: "+91 98765 43210",
+          walletAddress: "0x71C8705a3A85e053fA7c4f4a5C3f24D08dF83944",
+          walletBalance: 2500,
+          usdtBep20Balance: 1250,
+          topUpAmount: 1000,
+          totalEarnings: 3750,
+          totalDirectIncome: 850,
+          totalLevelIncome: 650,
+          totalRoiIncome: 1200,
+          totalRewardIncome: 450,
+          totalFastTrackIncome: 600,
+          poolIncome: 0,
+          paidDirectCount: 6,
+          totalTeam: 24,
+          activeTeam: 18,
+          role: "normal",
+          status: "active",
+          isSponsorDeactivated: false,
+          sponsorId: "WT10001",
+          sponsorName: "World Admin",
+          createdAt: "2026-08-15T10:00:00.000Z",
+          updatedAt: new Date().toISOString()
+        };
+        const demoStats = {
+          totalGrandInvestment: 384520,
+          todayTotalInvestment: 18650,
+          isFetching: false
+        };
+        const demoToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTIzNDU2Nzg5MGFiY2RlZjEyMzQ1NiIsInVzZXJJZCI6IjEwMDIzNCJ9.mockSign";
+        localStorage.setItem("user", JSON.stringify(demoUser));
+        localStorage.setItem("token", demoToken);
+        localStorage.setItem("dash_user_100234", JSON.stringify(demoUser));
+        localStorage.setItem("dash_stats", JSON.stringify(demoStats));
+      }
+    </script>
+    
+    <!-- Site Icon -->
+    <link rel="icon" type="image/svg+xml" href="./logo.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2b4450" />
+
+    <!-- Primary Meta Tags -->
+    <title>World together | Secure Crypto Investment & Staking Platform</title>
+    <meta name="title" content="World together | Secure Crypto Investment & Staking Platform" />
+    <meta name="description" content="Join World together, the most trusted decentralized crypto platform. Grow your assets, earn daily ROI, and build a strong financial future." />
+    <meta name="keywords" content="World together, Blockchain, Crypto Investment, USDT, Decentralized, Staking, Daily ROI, World together" />
+    <meta name="author" content="World together Team" />
+
+    <!-- Open Graph / WhatsApp / Telegram Sharing Preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="World together | Secure Crypto Investment Platform" />
+    <meta property="og:description" content="Start your journey with World together. Transparent daily ROI, secure network, and high returns. Join us today!" />
+    <meta property="og:image" content="./banner.jpg" />
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="World together | Secure Crypto Investment Platform" />
+    <meta property="twitter:description" content="Start your journey with World together. Transparent daily ROI, secure network, and high returns. Join us today!" />
+
+    <link rel="modulepreload" crossorigin href="./assets/createLucideIcon-Brpa_ae6.js">
+    <link rel="stylesheet" crossorigin href="./assets/createLucideIcon-C7t1gra3.css">
+    <link rel="stylesheet" crossorigin href="./assets/index-BMIxvOI5.css">
+    <script type="module" crossorigin src="./assets/index-ByXRP1PE.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
