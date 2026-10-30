@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting | World Together</title>
+    <script>
+      (function() {
+        var pathname = window.location.pathname;
+        var search = window.location.search || '';
+        var hash = window.location.hash || '';
+        var isWorld = pathname.indexOf('/world') === 0;
+        var prefix = isWorld ? '/world/' : '/';
+
+        if (pathname.indexOf('/register') !== -1) {
+          window.location.replace(prefix + 'dashboard.html?mode=register' + (search ? '&' + search.substring(1) : '') + hash);
+        } else if (pathname.indexOf('/login') !== -1) {
+          window.location.replace(prefix + 'dashboard.html?mode=login' + (search ? '&' + search.substring(1) : '') + hash);
+        } else if (pathname.indexOf('/dashboard') !== -1) {
+          window.location.replace(prefix + 'dashboard.html' + search + hash);
+        } else {
+          window.location.replace(prefix + 'index.html');
+        }
+      })();
+    </script>
+  </head>
+  <body style="background:#080f20;color:#e6bd37;font-family:sans-serif;text-align:center;padding:50px">
+    <h2>Redirecting to World Together...</h2>
+  </body>
+</html>

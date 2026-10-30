@@ -1,87 +1,745 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <script>
-      if (window.location.pathname.startsWith('/world')) {
-        const base = document.createElement('base');
-        base.href = '/world/';
-        document.head.prepend(base);
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="./logo.jpg" />
+<title>World Together | Demo Dashboard</title>
+<style>
+:root{--navy:#080f20;--panel:#151f35;--panel2:#1c263d;--gold:#e6bd37;--muted:#aab3c5;--cyan:#08a9ee;--green:#19dca0;--paper:#f3f7f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--paper);color:#fff}
+button,input,select{font:inherit}button{cursor:pointer}
+.auth-screen{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 20% 20%,#18304d,transparent 40%),linear-gradient(145deg,#061021,#0b1b32 60%,#07101e)}
+.auth-card{width:min(100%,390px);background:#252a30;border:1px solid #3c4248;border-radius:17px;overflow:hidden;box-shadow:0 18px 55px #0008}
+.auth-banner{height:78px;background:#078da9;clip-path:polygon(0 0,100% 0,100% 68%,0 100%);padding:20px 22px}
+.brand-mini{background:#fff;color:#0c2c4a;border-radius:5px;display:inline-block;padding:8px 9px;font-family:Georgia,serif;font-size:20px;letter-spacing:-1px}
+.brand-mini small{display:block;text-align:center;font-size:6px;letter-spacing:2px;color:#b58c24;margin-top:-2px}
+.auth-content{padding:0 23px 25px;margin-top:-1px}.auth-content h2{text-align:center;font-size:16px;margin:5px 0 22px}
+.auth-content input,.auth-content select{width:100%;background:transparent;border:0;border-bottom:1px solid #73787d;color:#f4f4f4;padding:14px 3px 10px;margin:0 0 8px;outline:none;font-size:13px}
+.auth-content input::placeholder{color:#a9aaad}.auth-content select option{color:#111}
+.auth-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;margin:12px 0 23px;color:#ddd;gap:8px}.auth-row label{display:flex;align-items:center;gap:6px}.auth-row input{width:auto;margin:0}.link{color:#00baff;font-weight:bold;text-decoration:none;cursor:pointer}
+.primary{width:100%;border:0;border-radius:7px;padding:14px 10px;color:white;font-weight:700;font-size:12px;letter-spacing:.5px;background:linear-gradient(100deg,#06aef4,#0088b5);box-shadow:0 5px 14px #00a8ed55}
+.auth-foot{text-align:center;color:#ccc;font-size:11px;margin:22px 0 0}.hidden{display:none!important}
+#app{min-height:100vh;color:#fff;background:var(--paper)}
+.topbar{height:76px;position:sticky;top:0;z-index:20;background:#080f20;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-shadow:0 4px 14px #0002}
+.brand{color:var(--gold);font-weight:900;font-size:clamp(19px,4vw,29px);letter-spacing:1.3px}
+.top-actions{display:flex;align-items:center;gap:20px}.logout{font-size:32px;color:var(--cyan);background:none;border:0}.menu-toggle{font-size:37px;line-height:1;color:var(--gold);background:none;border:0;padding:0 0 4px}
+.layout{display:flex;min-height:calc(100vh - 76px);position:relative}
+.sidebar{width:310px;flex-shrink:0;background:#141e34;color:var(--muted);padding:25px 14px 35px;position:fixed;top:76px;bottom:0;left:0;z-index:15;overflow:auto;transform:translateX(-105%);transition:transform .25s;box-shadow:8px 0 24px #0002}
+.sidebar.open{transform:translateX(0)}.side-heading{font-size:13px;font-weight:800;letter-spacing:2px;color:#7f8ba4;margin:10px 18px 18px}
+.menu-item{display:flex;align-items:center;gap:17px;padding:17px 16px;margin:4px 0;border-radius:28px;font-size:16px;font-weight:700;color:#aab4c7;border-left:5px solid transparent;cursor:pointer}
+.menu-item .ico{width:24px;text-align:center;font-size:22px}.menu-item.active{background:#272d33;color:var(--gold);border-left-color:var(--gold)}.menu-item:hover{background:#202b42}
+.main{width:100%;max-width:980px;margin:0 auto;padding:24px 20px 55px;color:#fff}
+.profile-strip{background:#1a2338;border-radius:20px;padding:20px 22px;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:14px;margin-bottom:16px;box-shadow:0 8px 20px #1112}
+.profile-cell{border-right:1px solid #384258;padding-right:10px;min-width:0}.profile-cell:last-child{border:0}.small-label{font-size:12px;color:#8994ab;font-weight:800;letter-spacing:.7px;margin-bottom:9px}.profile-value{font-size:18px;font-weight:800;overflow-wrap:anywhere}.gold{color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:23px}
+.stat{min-height:142px;padding:28px 27px;border-radius:22px;background:#1b2439;box-shadow:0 9px 20px #0002;display:flex;flex-direction:column;justify-content:center;border:1px solid #344058}
+.stat.gold-card{background:#e3a20d;color:#050a12;border-color:#c88b04}.stat-title{font-weight:900;font-size:16px;line-height:1.4;color:#9ba7bf}.stat.gold-card .stat-title{color:#10131a}.stat:nth-child(3) .stat-title{color:var(--green)}.stat:nth-child(4) .stat-title{color:var(--gold)}.stat:nth-child(5) .stat-title{color:var(--green)}.stat:nth-child(6) .stat-title{color:#13c9f4}.stat-value{font-size:clamp(25px,5vw,39px);font-weight:900;margin-top:13px;overflow-wrap:anywhere}
+.salary{background:#141e34;border:4px solid var(--gold);border-radius:24px;padding:27px 26px;margin-bottom:28px;box-shadow:0 10px 22px #0001}
+.salary h2{font-size:clamp(27px,5vw,42px);color:#f2b900;margin:0 0 15px;font-weight:900}.salary p{color:#aab5c9;font-size:20px;line-height:1.55;margin:0 0 22px}.salary strong{font-size:21px}
+.level{margin:18px 0}.level-row{display:flex;justify-content:space-between;gap:10px;font-size:17px;color:#d8deea}.level-row b{color:var(--gold)}.progress{height:13px;border-radius:12px;background:#253047;margin-top:13px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:var(--gold)}
+.notice{margin-top:28px;border:2px solid var(--gold);border-radius:15px;padding:23px;color:#f0c323;font-weight:800;font-size:19px;line-height:1.45;background:#282d31}
+.referral,.shortcuts{background:#141e34;border-radius:24px;overflow:hidden;margin:28px 0;box-shadow:0 9px 22px #0002;border:1px solid #27334a}
+.section-title{padding:27px 28px;border-bottom:1px solid #30394b;color:var(--gold);font-size:clamp(22px,4vw,30px);font-weight:900;background:#0a1020}
+.referral-content{padding:30px 25px}.copy-row{display:flex;border:1px solid #7b6a29;border-radius:14px;overflow:hidden;background:#090f1e}.copy-row input{min-width:0;flex:1;background:transparent;border:0;color:#e8c54b;font-size:clamp(14px,3vw,22px);letter-spacing:1px;padding:20px 17px;outline:none}.copy-btn{width:88px;border:0;background:linear-gradient(100deg,#e2b831,#fff0a2);font-size:28px;color:#070b15}
+.shortcut-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:25px 10px;padding:30px 16px 34px}.shortcut{border:0;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;gap:13px;font-weight:800;line-height:1.25;text-align:center;font-size:14px;min-width:0}.shortcut-icon{width:82px;height:82px;display:grid;place-items:center;border:1px solid #76642b;border-radius:28px;color:var(--gold);font-size:34px;box-shadow:inset 0 0 0 1px #d5ac2940}.shortcut:hover .shortcut-icon{background:#2a2d32;transform:translateY(-2px)}
+.footer-note{text-align:center;color:#667087;font-size:12px;padding:8px 0 25px}
+.content-page{background:#fff;color:#172033;border-radius:18px;padding:25px;min-height:300px;box-shadow:0 8px 25px #0001}.content-page h2{color:#172033;margin-top:0}.content-page p{color:#5d6676;line-height:1.6}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111b2e;color:#fff;border:1px solid var(--gold);padding:12px 18px;border-radius:12px;z-index:40;box-shadow:0 8px 25px #0004}
+@media(min-width:850px){.sidebar.open{transform:translateX(0)}.main{max-width:1040px}.layout.menu-open .main{margin-left:310px;max-width:calc(100% - 310px)}}
+@media(max-width:600px){.topbar{height:70px;padding:0 16px}.top-actions{gap:16px}.brand{font-size:19px;letter-spacing:.7px}.logout{font-size:29px}.menu-toggle{font-size:34px}.sidebar{top:70px;width:min(310px,88vw)}.main{padding:20px 12px 40px}.profile-strip{padding:16px 12px;gap:8px;border-radius:17px}.small-label{font-size:10px}.profile-value{font-size:14px}.stats{gap:13px}.stat{min-height:132px;padding:20px 17px;border-radius:20px}.stat-title{font-size:13px}.stat-value{font-size:29px}.salary{padding:22px 18px;border-width:3px}.salary p{font-size:17px}.notice{font-size:16px;padding:18px}.section-title{padding:23px 21px}.referral-content{padding:22px 15px}.copy-btn{width:65px}.shortcut-grid{padding:25px 9px 30px;gap:24px 4px}.shortcut-icon{width:65px;height:65px;border-radius:23px;font-size:28px}.shortcut{font-size:12px;gap:10px}}
+
+/* Investment packages section */
+.investment-section{margin:30px 0 28px;padding:28px 16px 30px;background:linear-gradient(180deg,#f4f9f8,#eef5f4);border-radius:20px;color:#172033}
+.investment-section h2{font-size:clamp(25px,5vw,34px);margin:0 0 62px 0;color:#202b3d;font-weight:900}
+.investment-intro{text-align:center;margin:0 auto 44px;max-width:650px}
+.investment-intro h3{font-size:clamp(22px,4.5vw,34px);line-height:1.35;color:#080b12;margin:0 0 22px;font-weight:900}
+.investment-intro h3 span{color:#e2b62d}
+.investment-intro p{font-size:clamp(14px,3vw,20px);color:#8a91a1;font-weight:700;margin:0}
+.package-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.package-card{position:relative;overflow:hidden;background:#111a2d;color:#fff;border:1px solid #33405d;border-radius:23px;padding:48px 18px 20px;box-shadow:0 10px 17px #10182835;min-width:0}
+.package-ribbon{position:absolute;top:0;right:0;background:#ef343b;color:#fff;padding:12px 15px;border-radius:0 0 0 17px;font-size:12px;font-weight:900;white-space:nowrap}
+.package-name{font-size:clamp(16px,3.5vw,23px);font-weight:900;color:#e6bd37;margin:0 0 24px;min-height:27px}
+.package-line{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#aeb8ca;font-size:clamp(12px,2.8vw,16px);font-weight:700;margin:13px 0}
+.package-line strong{color:#fff;font-size:clamp(14px,3.3vw,20px);text-align:right}
+.package-daily{background:#202b40;padding:10px 12px;border-radius:8px;margin:15px 0}
+.package-daily strong{color:#19d779}
+.package-duration strong{color:#4b9cff}
+.package-divider{height:1px;background:#455066;margin:18px 0}
+.package-total strong{color:#e6bd37}
+.package-invest{width:100%;border:0;border-radius:14px;padding:13px 8px;margin-top:12px;background:linear-gradient(100deg,#e1b933,#fff0a2);color:#090d16;font-size:clamp(13px,3vw,17px);font-weight:900;box-shadow:0 5px 14px #e3bd3b55}
+.package-disclaimer{font-size:12px;line-height:1.5;color:#687386;margin:22px 4px 0}
+@media(max-width:380px){.investment-section{padding:23px 10px}.package-grid{gap:12px}.package-card{padding:43px 12px 16px;border-radius:18px}.package-ribbon{font-size:10px;padding:10px 10px}.package-line{font-size:11px}.package-line strong{font-size:14px}}
+
+
+/* Screenshot-matched investment summary, package status and trading panels */
+.screenshot-panel{background:#141e34;border:1px solid #293650;border-radius:25px;padding:16px;margin:28px 0;color:#f5f7fb;box-shadow:0 10px 24px #0002;min-width:0}
+.summary-panel{background:#080f20;padding:16px;border-radius:24px}
+.summary-tile{border-radius:24px;padding:31px 26px;margin:0 0 26px;background:#1d2a40;border:1px solid #35445e}
+.summary-tile.total{background:linear-gradient(105deg,#f2b900,#d89100);color:#080b12;border:1px solid #ffcf32}
+.summary-tile:last-child{margin-bottom:0}
+.summary-label{font-size:clamp(15px,3vw,22px);font-weight:900;margin-bottom:14px}
+.summary-amount{font-size:clamp(30px,6vw,44px);font-weight:900;overflow-wrap:anywhere}
+.live-heading{font-size:19px;margin:0 0 20px;font-weight:500}
+.table-scroll{width:100%;overflow-x:auto;border-radius:12px}
+.demo-table{width:100%;border-collapse:collapse;min-width:620px;font-size:14px;color:#dce3ef}
+.demo-table th{color:#e5bd37;text-align:left;font-size:14px;padding:13px 9px;border-bottom:2px solid #354158;white-space:nowrap}
+.demo-table td{padding:14px 9px;border-bottom:1px solid #303b51;white-space:nowrap}
+.demo-table tr:last-child td{border-bottom:0}
+.demo-table .positive{color:#19dca0;font-weight:800}
+.demo-table .hash{color:#73aaff}
+.packages-empty{border:1px dashed #354158;border-radius:22px;background:#0b1325;color:#7e899e;text-align:center;padding:55px 12px;font-size:clamp(15px,3vw,22px);font-weight:900;letter-spacing:2px}
+.trading-panel{border-top:7px solid #e6bd37;background:#151f35}
+.trading-title{font-size:clamp(23px,4vw,32px);color:#e6bd37;font-weight:900;margin:4px 0 18px}
+.trading-time{color:#7f8ba4;font-size:14px;letter-spacing:1px;margin-bottom:26px}
+.table-search{width:100%;background:#0b1325;color:#fff;border:1px solid #39465e;border-radius:13px;padding:13px 17px;margin:0 0 23px;outline:none}
+.table-search:focus{border-color:#e6bd37}
+.trading-table{min-width:650px}
+.trading-table th{background:#1c2942;color:#aab4c7}
+.trading-table td{font-weight:700}
+.trading-table .long{color:#19dca0}
+.trading-table .short{color:#f16c7b}
+.trading-table .loss{color:#f16c7b}
+.trading-table .profit{color:#19dca0}
+.panel-note{font-size:11px;color:#8490a5;line-height:1.5;margin:15px 3px 2px}
+@media(max-width:600px){.screenshot-panel{padding:12px;border-radius:22px;margin:23px 0}.summary-panel{padding:12px}.summary-tile{padding:25px 20px;margin-bottom:20px;border-radius:21px}.demo-table th,.demo-table td{padding:13px 8px}.packages-empty{padding:45px 8px}}
+
+
+/* Page builder: responsive, consistent dashboard pages */
+.page-intro{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.page-kicker{color:#e6bd37;font-size:12px;font-weight:900;letter-spacing:1.5px;margin-bottom:8px}
+.page-subtitle{color:#aab3c5;line-height:1.55;margin:7px 0 0;font-size:14px}
+.page-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:18px 0}
+.page-card{background:#141e34;color:#f5f7fb;border:1px solid #2d3a53;border-radius:17px;padding:19px;min-width:0;box-shadow:0 7px 18px #0001}
+.page-card h3{font-size:16px;margin:0 0 15px;color:#e6bd37}
+.page-metric{font-size:27px;font-weight:900;margin-top:8px;overflow-wrap:anywhere}
+.page-muted{font-size:12px;color:#8f9bb0;line-height:1.5}
+.page-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.page-form label{display:block;color:#9da9bd;font-size:12px;font-weight:800;margin-bottom:6px}
+.page-form input,.page-form select,.page-form textarea{width:100%;background:#0b1325;color:#fff;border:1px solid #39465e;border-radius:10px;padding:12px;outline:none}
+.page-form textarea{min-height:90px;resize:vertical}
+.page-form .full{grid-column:1/-1}
+.page-action{border:0;border-radius:10px;padding:12px 17px;background:linear-gradient(100deg,#e1b933,#fff0a2);color:#101522;font-weight:900}
+.page-action.secondary{background:#26344d;color:#e8edf6;border:1px solid #43516b}
+.page-table-wrap{overflow-x:auto;border:1px solid #2c3951;border-radius:13px;margin-top:14px}
+.page-table{width:100%;border-collapse:collapse;min-width:560px;color:#dce3ef;font-size:13px}
+.page-table th{background:#1d2940;color:#e6bd37;text-align:left;padding:13px 12px;white-space:nowrap}
+.page-table td{padding:13px 12px;border-top:1px solid #2d3950;white-space:nowrap}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;background:#26354a;color:#aab6ca;font-size:11px;font-weight:800}
+.status.pending{background:#493b1b;color:#f3cc59}.status.success{background:#123b35;color:#45e0b0}
+.page-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.page-tabs button{border:1px solid #3c4960;background:#0b1325;color:#b9c3d4;padding:9px 13px;border-radius:9px}
+.page-tabs button.active{border-color:#e6bd37;color:#e6bd37}
+.page-alert{border:1px solid #78642a;background:#292b2c;color:#f0cc58;border-radius:12px;padding:13px 15px;font-size:12px;line-height:1.55;margin:15px 0}
+.profile-avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#283752;color:#e6bd37;font-size:24px;font-weight:900}
+@media(max-width:600px){.page-grid{grid-template-columns:1fr 1fr;gap:10px}.page-card{padding:15px}.page-metric{font-size:22px}.page-form{grid-template-columns:1fr}.page-form .full{grid-column:auto}}
+@media(max-width:380px){.page-grid{grid-template-columns:1fr}}
+
+
+/* Monthly Lucky Winner page */
+.lucky-page-shell{background:#080f20;border-radius:28px;padding:24px 20px;margin:0 auto 24px;max-width:900px;box-shadow:0 12px 28px #0002}
+.lucky-hero{background:#141e34;border:1px solid #26344c;border-radius:30px;padding:42px 34px 34px;margin-bottom:48px;position:relative;overflow:hidden}
+.lucky-hero:after{content:"♜";position:absolute;right:-3px;top:-52px;font-size:260px;line-height:1;color:#e6bd37;opacity:.09;pointer-events:none}
+.lucky-title{position:relative;z-index:1;color:#ffd21a;font-size:clamp(35px,7vw,60px);line-height:1.2;letter-spacing:2px;font-weight:1000;margin:0 0 20px;text-transform:uppercase;max-width:620px}
+.lucky-description{position:relative;z-index:1;border-left:4px solid #f3c400;padding:2px 0 2px 24px;color:#a3adbf;font-size:clamp(16px,3.3vw,24px);line-height:1.55;margin:0 0 48px;max-width:620px}
+.lucky-info-list{position:relative;z-index:1;display:grid;gap:28px}
+.lucky-info{display:flex;align-items:center;gap:24px;min-height:130px;padding:22px 24px;background:#0b1325;border:1px solid #253149;border-radius:25px}
+.lucky-info-icon{width:72px;height:72px;flex:0 0 72px;border-radius:18px;display:grid;place-items:center;font-size:34px;background:#27271e;color:#ffc400}
+.lucky-info:nth-child(2) .lucky-info-icon{background:#102344;color:#378dff}
+.lucky-info:nth-child(3) .lucky-info-icon{background:#082d2a;color:#00d47a}
+.lucky-info:nth-child(4) .lucky-info-icon{background:#1b2043;color:#6a61ff}
+.lucky-info-label{font-size:clamp(14px,2.7vw,20px);font-weight:900;color:#727d91;margin-bottom:8px}
+.lucky-info-value{font-size:clamp(19px,3.7vw,29px);font-weight:900;color:#f7f8fc}
+.lucky-winners{background:#141e34;border-top:7px solid #f3c000;border-radius:30px 30px 0 0;padding:35px 28px 30px;overflow:hidden}
+.lucky-winners h2{text-align:center;font-size:clamp(27px,5vw,40px);margin:0 0 38px;color:#f8f9fc;font-weight:1000}
+.lucky-controls{display:grid;grid-template-columns:1.25fr .85fr;gap:16px;margin-bottom:48px}
+.lucky-controls select,.lucky-controls input{width:100%;height:92px;background:#0b1325;border:2px solid #3b465b;border-radius:17px;color:#f4c000;padding:0 22px;font-size:clamp(17px,3.2vw,28px);outline:none;min-width:0}
+.lucky-controls input{color:#fff}
+.lucky-controls input::placeholder{color:#858b98}
+.lucky-table-wrap{overflow-x:auto;border:1px solid #253149;border-radius:22px}
+.lucky-table{width:100%;min-width:560px;border-collapse:collapse;color:#e8edf6}
+.lucky-table th{height:96px;background:#1b2942;color:#f5c400;text-align:left;font-size:clamp(16px,2.7vw,23px);padding:20px 30px}
+.lucky-table td{height:118px;border-top:1px solid #26344b;padding:18px 30px;font-size:clamp(16px,2.8vw,25px);font-weight:700;white-space:nowrap}
+.lucky-table td:first-child{color:#758096;text-align:center;width:100px}
+.lucky-table td:nth-child(2){color:#f5f7fb}
+.lucky-table td:nth-child(3){color:#a3adbf}
+.lucky-empty{text-align:center;padding:35px;color:#9ba7bf}
+@media(max-width:600px){
+ .lucky-page-shell{padding:16px 12px;border-radius:22px}
+ .lucky-hero{padding:48px 22px 25px;border-radius:25px;margin-bottom:28px}
+ .lucky-hero:after{font-size:190px;top:-28px}
+ .lucky-description{padding-left:20px;margin-bottom:35px}
+ .lucky-info-list{gap:22px}
+ .lucky-info{min-height:130px;padding:20px 18px;gap:22px;border-radius:24px}
+ .lucky-info-icon{width:58px;height:58px;flex-basis:58px;font-size:29px}
+ .lucky-winners{padding:32px 16px 25px}
+ .lucky-winners h2{margin-bottom:35px}
+ .lucky-controls{grid-template-columns:1.2fr .8fr;gap:12px;margin-bottom:48px}
+ .lucky-controls select,.lucky-controls input{height:92px;padding:0 16px;font-size:clamp(16px,3.5vw,24px)}
+ .lucky-table th{height:96px;padding:18px 25px}
+ .lucky-table td{height:118px;padding:18px 25px}
+}
+
+</style>
+</head>
+<body>
+<section id="loginScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-banner"><span class="brand-mini">WORLD<small>TOGETHER</small></span></div>
+    <div class="auth-content">
+      <h2>Sign Into Your Account</h2>
+      <form id="loginForm">
+        <input id="loginId" placeholder="USER ID (Optional)" autocomplete="username">
+        <input id="loginPassword" type="password" placeholder="USER PASSWORD (Optional)" autocomplete="current-password">
+        <div class="auth-row"><label><input type="checkbox"> Remember me</label><a class="link" href="#" id="forgotLink">Forgot Password?</a></div>
+        <button class="primary" type="submit">LOGIN NOW</button>
+      </form><p style="text-align:center;margin:12px 0 0"><a class="link" href="./" style="color:#7f8ba4;text-decoration:none;font-size:12px">← Back to Website</a></p>
+      <p class="auth-foot">Don't have an account? <a class="link" id="goRegister">Register here</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="registerScreen" class="auth-screen hidden">
+  <div class="auth-card">
+    <div class="auth-banner"><span class="brand-mini">WORLD<small>TOGETHER</small></span></div>
+    <div class="auth-content">
+      <h2>Create An Account</h2>
+      <form id="registerForm">
+        <input value="WT-DEMO-1001" aria-label="Referral ID" readonly>
+        <div style="font-size:11px;color:#38df83;margin:0 0 8px">✓ Sponsor: Demo Sponsor</div>
+        <input id="fullName" placeholder="Full Name *">
+        <select id="country"><option value="">Select Country *</option><option>India</option><option>United States</option><option>United Kingdom</option><option>United Arab Emirates</option></select>
+        <input id="email" type="email" placeholder="Email Id *">
+        <input id="mobile" type="tel" placeholder="Mobile No. *">
+        <input id="wallet" placeholder="USDT (BEP-20) Wallet Address *">
+        <input id="newPassword" type="password" placeholder="Set Login Password *">
+        <div class="auth-row" style="justify-content:flex-start"><label><input type="checkbox" id="terms"> I agree to the terms of service</label></div>
+        <button class="primary" type="submit">REGISTER NOW</button>
+      </form><p style="text-align:center;margin:12px 0 0"><a class="link" href="./" style="color:#7f8ba4;text-decoration:none;font-size:12px">← Back to Website</a></p>
+      <p class="auth-foot">Already have an account? <a class="link" id="goLogin">Login here</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="app" class="hidden">
+  <header class="topbar">
+    <div class="brand">WORLD TOGETHER</div>
+    <div class="top-actions">
+      <button class="logout" id="logoutBtn" aria-label="Logout" title="Logout">⇥</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" title="Menu">☰</button>
+    </div>
+  </header>
+  <div class="layout" id="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-heading">MAIN MENU</div>
+      <div class="menu-item active" data-page="Dashboard"><span class="ico">⌂</span>Dashboard</div>
+      <div class="menu-item" data-page="System Live Feed"><span class="ico">♧</span>System Live Feed</div>
+      <div class="menu-item" data-page="Live Trading"><span class="ico">∿</span>Live Trading</div>
+      <div class="menu-item" data-page="My Profile"><span class="ico">◎</span>My Profile</div>
+      <div class="menu-item" data-page="Package Details"><span class="ico">ϟ</span>Package Details</div>
+      <div class="menu-item" data-page="My Packages"><span class="ico">⬡</span>My Packages</div>
+      <div class="menu-item" data-page="Compound Packages"><span class="ico">▱</span>Compound Packages</div>
+      <div class="side-heading" style="margin-top:32px">NETWORK &amp; HISTORY</div>
+      <div class="menu-item" data-page="Deposit History"><span class="ico">◴</span>Deposit History</div>
+      <div class="menu-item" data-page="Direct Team"><span class="ico">♙</span>Direct Team</div>
+      <div class="menu-item" data-page="Level Team"><span class="ico">♧</span>Level Team</div>
+      <div class="menu-item" data-page="Team Business"><span class="ico">▱</span>Team Business</div>
+      <div class="menu-item" data-page="Salary Achievers"><span class="ico">♜</span>Salary Achievers</div>
+      <div class="menu-item" data-page="Lucky Winners"><span class="ico">♔</span>Lucky Winners</div>
+      <div class="side-heading" style="margin-top:32px">INCOME REPORTS</div>
+      <div class="menu-item" data-page="Daily ROI Income"><span class="ico">▥</span>Daily ROI Income</div>
+      <div class="menu-item" data-page="Direct Income"><span class="ico">◎</span>Direct Income</div>
+      <div class="menu-item" data-page="Daily Level Income"><span class="ico">◉</span>Daily Level Income</div>
+      <div class="side-heading" style="margin-top:32px">FINANCIALS &amp; SUPPORT</div>
+      <div class="menu-item" data-page="Wallet History"><span class="ico">▣</span>Wallet History</div>
+      <div class="menu-item" data-page="Withdrawals"><span class="ico">▤</span>Withdrawals</div>
+      <div class="menu-item" data-page="Support and Raise Ticket"><span class="ico">ⓘ</span>Support and Raise Ticket</div>
+    </aside>
+    <main class="main" id="main">
+      <div id="dashboardPage">
+        <div class="profile-strip">
+          <div class="profile-cell"><div class="small-label">NAME</div><div class="profile-value" id="displayName">Guest</div></div>
+          <div class="profile-cell"><div class="small-label">USER ID</div><div class="profile-value gold" id="displayId">WT-DEMO-1001</div></div>
+          <div class="profile-cell"><div class="small-label">JOINED</div><div class="profile-value" id="joinedDate">29-Oct-2026</div></div>
+        </div>
+        <div class="stats">
+          <div class="stat gold-card"><div class="stat-title">TOTAL INVESTMENT</div><div class="stat-value">$0.00</div></div>
+          <div class="stat"><div class="stat-title">TODAY'S TOTAL INVESTMENT</div><div class="stat-value">$0.00</div></div>
+          <div class="stat"><div class="stat-title">MY EARNING</div><div class="stat-value">$0.00</div></div>
+          <div class="stat"><div class="stat-title">MY TOPUP</div><div class="stat-value">$0.00</div></div>
+          <div class="stat"><div class="stat-title">AUTO COMPOUND ACTIVE</div><div class="stat-value">$0.00</div></div>
+          <div class="stat"><div class="stat-title">HIGHEST ACTIVE PKG</div><div class="stat-value">$0.00</div></div>
+        </div>
+        <section class="salary">
+          <h2>MONTHLY SALARY</h2>
+          <p>Earn $100 per month for 6 months! ($600 Total)</p>
+          <strong>Self Topup $50+</strong>
+          <div class="level"><div class="level-row"><span>Level 1 ($50+ Users)</span><b>0 / 3</b></div><div class="progress"><span></span></div></div>
+          <div class="level"><div class="level-row"><span>Level 2 ($50+ Users)</span><b>0 / 6</b></div><div class="progress"><span></span></div></div>
+          <div class="notice">ⓘ &nbsp; Please Top-up to start the Monthly Salary!</div>
+        </section>
+        <section class="referral">
+          <div class="section-title">REFERRAL LINK</div>
+          <div class="referral-content"><div class="copy-row"><input id="referralLink" value="https://worldtogether24.online/register?ref=WT-DEMO-1001" readonly aria-label="Referral link"><button class="copy-btn" id="copyReferral" title="Copy referral link">▢</button></div></div>
+        </section>
+        <section class="shortcuts">
+          <div class="shortcut-grid">
+            <button class="shortcut" data-page="Recharge"><span class="shortcut-icon">$</span><span>Recharge</span></button>
+            <button class="shortcut" data-page="Withdrawals"><span class="shortcut-icon">▤</span><span>Withdrawal</span></button>
+            <button class="shortcut" data-page="Fund Transfer"><span class="shortcut-icon">⇄</span><span>Fund<br>Transfer</span></button>
+            <button class="shortcut" data-page="Wallet to Fund"><span class="shortcut-icon">▣</span><span>Wallet<br>to Fund</span></button>
+            <button class="shortcut" data-page="Direct Team"><span class="shortcut-icon">♧</span><span>Team</span></button>
+            <button class="shortcut" data-page="Support and Raise Ticket"><span class="shortcut-icon">♧</span><span>Support</span></button>
+            <button class="shortcut" data-page="Ticket Reply"><span class="shortcut-icon">▣</span><span>Ticket<br>Reply</span></button>
+            <button class="shortcut" data-page="Package Details"><span class="shortcut-icon">▦</span><span>Plan</span></button>
+          </div>
+        </section>
+
+        <section class="investment-section" id="investmentPackages">
+          <h2>Investment Packages</h2>
+          <div class="investment-intro">
+            <h3>DOUBLE YOUR AMOUNT IN <span>70 DAYS</span></h3>
+            <p>1% Daily ROI • Auto Compounding System</p>
+          </div>
+          <div class="package-grid">
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">STARTER</h3>
+              <div class="package-line"><span>Investment:</span><strong>$2</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.02</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$4</strong></div>
+              <button class="package-invest" type="button" data-package="STARTER">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">BASIC</h3>
+              <div class="package-line"><span>Investment:</span><strong>$5</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.05</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$10</strong></div>
+              <button class="package-invest" type="button" data-package="BASIC">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">BRONZE</h3>
+              <div class="package-line"><span>Investment:</span><strong>$10</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.10</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$20</strong></div>
+              <button class="package-invest" type="button" data-package="BRONZE">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">SILVER</h3>
+              <div class="package-line"><span>Investment:</span><strong>$20</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.20</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$40</strong></div>
+              <button class="package-invest" type="button" data-package="SILVER">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">GOLD</h3>
+              <div class="package-line"><span>Investment:</span><strong>$50</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.50</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$100</strong></div>
+              <button class="package-invest" type="button" data-package="GOLD">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">PLATINUM</h3>
+              <div class="package-line"><span>Investment:</span><strong>$100</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$1.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$200</strong></div>
+              <button class="package-invest" type="button" data-package="PLATINUM">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">ACE</h3>
+              <div class="package-line"><span>Investment:</span><strong>$200</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$2.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$400</strong></div>
+              <button class="package-invest" type="button" data-package="ACE">INVEST NOW</button>
+            </article>
+            <article class="package-card">
+              <span class="package-ribbon">2X RETURN</span>
+              <h3 class="package-name">DIAMOND</h3>
+              <div class="package-line"><span>Investment:</span><strong>$500</strong></div>
+              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$5.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$1,000</strong></div>
+              <button class="package-invest" type="button" data-package="DIAMOND">INVEST NOW</button>
+            </article>
+          </div>
+          <p class="package-disclaimer">Demo display only. The returns shown above are unverified example figures, not guaranteed or promised returns. Investment involves risk. The “Invest Now” buttons do not process payments or create investments.</p>
+        </section>
+
+
+        <!-- Screenshot section: investment totals and recent deposits -->
+        <section class="screenshot-panel summary-panel" aria-label="Investment summary">
+          <div class="summary-tile total">
+            <div class="summary-label">TOTAL INVESTMENT</div>
+            <div class="summary-amount">$2,436,281.00</div>
+          </div>
+          <div class="summary-tile">
+            <div class="summary-label" style="color:#9ba7bf">TODAY'S TOTAL</div>
+            <div class="summary-amount">$0.00</div>
+          </div>
+          <div class="summary-tile">
+            <h3 class="live-heading">Live Investment</h3>
+            <div class="table-scroll">
+              <table class="demo-table">
+                <thead><tr><th>Sr.</th><th>Date</th><th>Amt($)</th><th>User ID</th><th>Name</th><th>Hash</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>28/10/26</td><td class="positive">+500.00</td><td><b>WF5637880</b></td><td>Arjun Pra...</td><td class="hash">0x37..fb</td></tr>
+                  <tr><td>2</td><td>28/10/26</td><td class="positive">+1000.00</td><td><b>WF5707579</b></td><td>Haresh</td><td class="hash">0x96..25</td></tr>
+                  <tr><td>3</td><td>28/10/26</td><td class="positive">+200.00</td><td><b>WF4760681</b></td><td>Adoma A...</td><td class="hash">0x43..66</td></tr>
+                  <tr><td>4</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>WF8164626</b></td><td>Naresh ku...</td><td class="hash">0x84..8b</td></tr>
+                  <tr><td>5</td><td>28/10/26</td><td class="positive">+100.00</td><td><b>WF4038015</b></td><td>Parvez Ak...</td><td class="hash">0x1e..4d</td></tr>
+                  <tr><td>6</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>WF8526114</b></td><td>Mulayam ...</td><td class="hash">0x71..cf</td></tr>
+                  <tr><td>7</td><td>28/10/26</td><td class="positive">+50.00</td><td><b>WF6880665</b></td><td>Rohit Ku...</td><td class="hash">0xa7..02</td></tr>
+                  <tr><td>8</td><td>28/10/26</td><td class="positive">+100.00</td><td><b>WF2561681</b></td><td>Nitin Bihari</td><td class="hash">0x9e..0d</td></tr>
+                  <tr><td>9</td><td>28/10/26</td><td class="positive">+1000.00</td><td><b>WF4015651</b></td><td>Dinesh Di...</td><td class="hash">0x41..da</td></tr>
+                  <tr><td>10</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>WF2625613</b></td><td>Munna ku...</td><td class="hash">0x0d..18</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="panel-note">Demo/sample figures shown to match the supplied reference screenshot. They are not live investment or transaction records.</p>
+        </section>
+
+        <!-- Screenshot section: active packages -->
+        <section class="screenshot-panel" aria-label="My packages">
+          <h2 style="font-size:clamp(25px,4vw,34px);margin:13px 7px 17px">MY PACKAGES</h2>
+          <div class="small-label" style="font-size:13px;margin:0 7px 12px">WORLD TOGETHER</div>
+          <div class="packages-empty">NO ACTIVE PACKAGES FOUND</div>
+        </section>
+
+        <!-- Screenshot section: AI trading status -->
+        <section class="screenshot-panel trading-panel" aria-label="AI trading status">
+          <h2 class="trading-title">ϟ AI Trading Status</h2>
+          <div class="trading-time">2026-10-29T09:19:05.496Z</div>
+          <input id="tradingSearch" class="table-search" type="search" placeholder="⌕  Search Pair..." aria-label="Search trading pair">
+          <div class="table-scroll">
+            <table class="demo-table trading-table" id="tradingTable">
+              <thead><tr><th>PAIR</th><th>SIDE</th><th>ENTRY</th><th>LATEST</th><th>PNL</th></tr></thead>
+              <tbody>
+                <tr><td>SHIB/USDT</td><td class="long">Long 5X</td><td>0.000005</td><td>0.000005</td><td class="loss">-2.04%</td></tr>
+                <tr><td>DODGE/USDT</td><td class="long">Long 15X</td><td>6.364200</td><td>21.669000</td><td class="profit">+3607.24%</td></tr>
+                <tr><td>TRX/USDT</td><td class="short">Short 20X</td><td>0.327500</td><td>0.331500</td><td class="loss">-24.43%</td></tr>
+                <tr><td>LINK/USDT</td><td class="long">Long 15X</td><td>8.198000</td><td>11.515000</td><td class="profit">+606.92%</td></tr>
+                <tr><td>ADA/USDT</td><td class="short">Short 10X</td><td>0.194100</td><td>0.199900</td><td class="loss">-29.88%</td></tr>
+                <tr><td>UNI/USDT</td><td class="long">Long 5X</td><td>3.957000</td><td>7.052000</td><td class="profit">+391.08%</td></tr>
+                <tr><td>FIL/USDT</td><td class="long">Long 15X</td><td>0.715000</td><td>0.894100</td><td class="profit">+375.73%</td></tr>
+                <tr><td>BTC/USDT</td><td class="long">Long 15X</td><td>64230.010000</td><td>80236.750000</td><td class="profit">+373.81%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-note">Illustrative trading rows only. No exchange connection, live prices, trading execution, or verified profit/loss data is included.</p>
+        </section>
+
+        <div class="footer-note">World Together • Demo dashboard UI</div>
+      </div>
+      <div id="otherPage" class="content-page hidden"><div id="pageContent"></div><button class="page-action secondary" id="backDashboard" style="margin-top:20px">← BACK TO DASHBOARD</button></div>
+    </main>
+  </div>
+</section>
+<div id="toast" class="toast hidden" role="status"></div>
+<script>
+const $=id=>document.getElementById(id);
+const screens=['loginScreen','registerScreen','app'];
+function showScreen(id){screens.forEach(s=>$(s).classList.toggle('hidden',s!==id));window.scrollTo(0,0)}
+function openDashboard(name,id){$('displayName').textContent=name||'Demo User';$('displayId').textContent=id||'WT-DEMO-1001';$('joinedDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).replace(/ /g,'-');$('referralLink').value='https://worldtogether24.online/register?ref='+encodeURIComponent(id||'WT-DEMO-1001');showScreen('app');$('sidebar').classList.remove('open');$('layout').classList.remove('menu-open');showPage('Dashboard')}
+$('goRegister').addEventListener('click',()=>showScreen('registerScreen'));
+$('goLogin').addEventListener('click',()=>showScreen('loginScreen'));
+$('loginForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const enteredId=$('loginId').value.trim();
+  const name=enteredId||'Sandeep Sah';
+  const id=enteredId||'WT-100234';
+  try{localStorage.setItem('user',JSON.stringify({name:name,userId:id}))}catch(err){}
+  openDashboard(name,id);
+});
+$('registerForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=$('fullName').value.trim()||'Sandeep Sah';
+  const id=('WT-'+Math.random().toString(36).slice(2,8)).toUpperCase();
+  try{localStorage.setItem('user',JSON.stringify({name:name,userId:id}))}catch(err){}
+  openDashboard(name,id);
+});
+$('forgotLink').addEventListener('click',e=>{e.preventDefault();notify('Password recovery can be connected later.')});
+$('menuToggle').addEventListener('click',()=>{$('sidebar').classList.toggle('open');$('layout').classList.toggle('menu-open',$('sidebar').classList.contains('open'))});
+$('logoutBtn').addEventListener('click',()=>showScreen('loginScreen'));
+
+const demoRows = {
+  "Deposit History": [
+    ["DP-1001","29-Oct-2026","$50.00","USDT (BEP-20)","Pending"],
+    ["DP-1002","25-Oct-2026","$100.00","USDT (BEP-20)","Demo"],
+    ["DP-1003","18-Oct-2026","$20.00","USDT (BEP-20)","Demo"]
+  ],
+  "Direct Team": [
+    ["WT-2041","Rahul Kumar","29-Oct-2026","$50","Active"],
+    ["WT-2042","Aman Singh","27-Oct-2026","$0","Not active"],
+    ["WT-2043","Priya Das","24-Oct-2026","$20","Not active"]
+  ],
+  "Level Team": [
+    ["Level 1","3","$70.00","0"],
+    ["Level 2","6","$120.00","0"],
+    ["Level 3","12","$0.00","0"]
+  ],
+  "Team Business": [
+    ["Direct Business","3","$70.00"],
+    ["Level Business","6","$120.00"],
+    ["Total Business","9","$190.00"]
+  ],
+  "Salary Achievers": [
+    ["October 2026","0 / 3","0 / 6","Not qualified"],
+    ["September 2026","0 / 3","0 / 6","Not qualified"]
+  ],
+  "Lucky Winners": [
+    ["1","WF6522851","Aqib Warsi","Tier 1"],
+    ["2","WF3079160","Madumali G","Tier 2"],
+    ["3","WF6168151","Chukwudi E","Tier 1"],
+    ["4","WF1455169","Shirin Dewan","Tier 2"]
+  ],
+  "Daily ROI Income": [
+    ["29-Oct-2026","$0.00","Demo"],
+    ["28-Oct-2026","$0.00","Demo"],
+    ["27-Oct-2026","$0.00","Demo"]
+  ],
+  "Direct Income": [
+    ["29-Oct-2026","$0.00","No eligible referral"],
+    ["28-Oct-2026","$0.00","Demo"]
+  ],
+  "Daily Level Income": [
+    ["Level 1","$0.00","0 users"],
+    ["Level 2","$0.00","0 users"],
+    ["Level 3","$0.00","0 users"]
+  ],
+  "Wallet History": [
+    ["WH-1001","29-Oct-2026","Credit","$0.00","Demo"],
+    ["WH-1002","28-Oct-2026","Debit","$0.00","Demo"]
+  ],
+  "Withdrawals": [
+    ["WD-1001","29-Oct-2026","$0.00","USDT","Not requested"]
+  ]
+};
+
+function tableMarkup(headers, rows){
+  return `<div class="page-table-wrap"><table class="page-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((cell,i)=>`<td>${i===row.length-1 && /Pending|Active|Not active|Not qualified|Demo|Not requested/.test(cell) ? `<span class="status ${cell==='Active'?'success':cell==='Pending'?'pending':''}">${cell}</span>` : cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function pageHeader(title, subtitle){
+  return `<div class="page-intro"><div><div class="page-kicker">WORLD TOGETHER / MEMBER AREA</div><h2 style="margin:0;color:#172033">${title}</h2><p class="page-subtitle">${subtitle}</p></div><span class="status">DEMO ACCOUNT</span></div>`;
+}
+function metricCard(label,value,note='Sample display only'){
+  return `<div class="page-card"><div class="small-label">${label}</div><div class="page-metric">${value}</div><div class="page-muted">${note}</div></div>`;
+}
+function renderPage(page){
+  const heading = pageHeader(page, pageDescriptions[page] || 'Manage and review this section of your member dashboard.');
+  const formField = (label, type='text', placeholder='Enter '+label.toLowerCase()) => `<div><label>${label}</label><input type="${type}" placeholder="${placeholder}"></div>`;
+  const action = (label, message='This is a demo interface. No transaction or account change was made.') => `<button class="page-action" type="button" onclick="notify('${message}')">${label}</button>`;
+  let body = '';
+  switch(page){
+    case 'System Live Feed':
+      body = `<div class="page-grid">${metricCard('SYSTEM STATUS','Operational','Illustrative status only')}${metricCard('LAST UPDATE','08:13 AM','Demo timestamp')}</div><div class="page-card"><h3>System announcements</h3><p class="page-muted">Welcome to the World Together member dashboard.</p><div class="page-alert">Important: Deposit, withdrawal, trading and income information is not connected to a live backend in this preview.</div><p class="page-muted">• Keep your login credentials private.<br>• Verify all payment details through official support before making a payment.<br>• Check the transaction reference after backend integration.</p></div>`;
+      break;
+    case 'Live Trading':
+      body = `<div class="page-grid">${metricCard('TRADING ENGINE','Demo mode','No exchange connection')}${metricCard('OPEN POSITIONS','0','No real trades are running')}</div><div class="page-card"><h3>Trading activity</h3><input class="table-search" id="pageTradingSearch" placeholder="Search pair..." oninput="filterPageTable(this.value)">${tableMarkup(['PAIR','SIDE','ENTRY','LATEST','P&L'],[['BTC/USDT','Long (sample)','—','—','—'],['ETH/USDT','Short (sample)','—','—','—'],['TRX/USDT','Long (sample)','—','—','—']])}<p class="page-muted">Market prices and profit/loss are intentionally not fabricated. Connect a verified market-data provider before displaying live values.</p></div>`;
+      break;
+    case 'My Profile':
+      body = `<div class="page-card"><div style="display:flex;align-items:center;gap:15px;margin-bottom:20px"><div class="profile-avatar">WT</div><div><h3 style="margin:0 0 5px">Member profile</h3><span class="page-muted">Your account information</span></div></div><div class="page-form">${formField('Full name')}${formField('User ID')} ${formField('Email address','email')}${formField('Mobile number','tel')}${formField('Country')}${formField('Joined date')}</div><div style="margin-top:17px">${action('SAVE PROFILE')}</div></div><div class="page-alert">Profile values shown here are editable demo fields. Save functionality requires a secure backend.</div>`;
+      break;
+    case 'Package Details':
+      body = `<div class="page-grid">${metricCard('AVAILABLE PLANS','8','Demo package catalogue')}${metricCard('PACKAGE DURATION','70 days','Example duration from the supplied design')}</div><div class="page-card"><h3>Package catalogue</h3><div class="page-table-wrap"><table class="page-table"><thead><tr><th>PACKAGE</th><th>AMOUNT</th><th>DISPLAY STATUS</th></tr></thead><tbody>${[['Starter','$2'],['Basic','$5'],['Bronze','$10'],['Silver','$20'],['Gold','$50'],['Platinum','$100'],['Ace','$200'],['Diamond','$500']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="status">Preview only</span></td></tr>`).join('')}</tbody></table></div><p class="page-muted">These are catalogue examples copied from the supplied design, not a recommendation or verified financial product. Returns are not guaranteed.</p></div>`;
+      break;
+    case 'My Packages':
+      body = `<div class="page-grid">${metricCard('ACTIVE PACKAGES','0','No package record connected')}${metricCard('COMPLETED PACKAGES','0','No package record connected')}</div><div class="page-card"><h3>My package records</h3><div class="packages-empty">NO ACTIVE PACKAGES FOUND</div></div>`;
+      break;
+    case 'Compound Packages':
+      body = `<div class="page-grid">${metricCard('AUTO COMPOUND','Off','Demo setting')}${metricCard('COMPOUND BALANCE','$0.00','No live wallet connected')}</div><div class="page-card"><h3>Compounding preferences</h3><div class="page-form"><div><label>Choose package</label><select><option>Select a package</option><option>Starter</option><option>Basic</option><option>Bronze</option><option>Silver</option><option>Gold</option></select></div><div><label>Compounding option</label><select><option>Manual</option><option>Auto (demo)</option></select></div></div><div style="margin-top:16px">${action('SAVE PREFERENCE')}</div><p class="page-muted" style="margin-top:14px">No funds are moved or reinvested from this preview.</p></div>`;
+      break;
+
+    case 'Lucky Winners':
+      body = `<div class="lucky-page-shell">
+        <section class="lucky-hero">
+          <h1 class="lucky-title">Monthly<br>Lucky Winner<br>Program</h1>
+          <p class="lucky-description">Only members with an active $50 Top-Up ID will be eligible.</p>
+          <div class="lucky-info-list">
+            <div class="lucky-info"><div class="lucky-info-icon">🏆</div><div><div class="lucky-info-label">TOTAL WINNERS</div><div class="lucky-info-value">100 Lucky Winners</div></div></div>
+            <div class="lucky-info"><div class="lucky-info-icon">▣</div><div><div class="lucky-info-label">ANNOUNCEMENT</div><div class="lucky-info-value">10th of Every Month</div></div></div>
+            <div class="lucky-info"><div class="lucky-info-icon">♙</div><div><div class="lucky-info-label">REWARD TIER 1</div><div class="lucky-info-value">50 Winners ($100)</div></div></div>
+            <div class="lucky-info"><div class="lucky-info-icon">♧</div><div><div class="lucky-info-label">REWARD TIER 2</div><div class="lucky-info-value">50 Winners ($50)</div></div></div>
+          </div>
+        </section>
+        <section class="lucky-winners">
+          <h2>WINNERS LIST.</h2>
+          <div class="lucky-controls">
+            <select id="luckyRewardFilter" aria-label="Filter winners by reward">
+              <option value="all">All Rewards</option>
+              <option value="tier1">Reward Tier 1 ($100)</option>
+              <option value="tier2">Reward Tier 2 ($50)</option>
+            </select>
+            <input id="luckySearch" type="search" placeholder="⌕  Search ID / Name" aria-label="Search winners">
+          </div>
+          <div class="lucky-table-wrap">
+            <table class="lucky-table" id="luckyTable">
+              <thead><tr><th>SR.NO</th><th>USER ID</th><th>NAME</th></tr></thead>
+              <tbody>
+                <tr data-tier="tier1"><td>1</td><td>WF6522851</td><td>Aqib Warsi</td></tr>
+                <tr data-tier="tier2"><td>2</td><td>WF3079160</td><td>Madumali G</td></tr>
+                <tr data-tier="tier1"><td>3</td><td>WF6168151</td><td>Chukwudi E</td></tr>
+                <tr data-tier="tier2"><td>4</td><td>WF1455169</td><td>Shirin Dewan</td></tr>
+                <tr data-tier="tier1"><td>5</td><td>WF3994196</td><td>Mansi Dwivedi</td></tr>
+                <tr data-tier="tier2"><td>6</td><td>WF9195422</td><td>Jelimo Njogu</td></tr>
+                <tr data-tier="tier1"><td>7</td><td>WF2857880</td><td>Yashwant D</td></tr>
+                <tr data-tier="tier2"><td>8</td><td>WF4382710</td><td>Sample Winner</td></tr>
+                <tr data-tier="tier1"><td>9</td><td>WF7281540</td><td>Sample Winner</td></tr>
+                <tr data-tier="tier2"><td>10</td><td>WF3916208</td><td>Sample Winner</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="page-muted" style="margin:18px 2px 0">Preview list based on the supplied design. Replace sample entries with verified monthly winner records from your backend before publishing.</p>
+        </section>
+      </div>`;
+      break;
+    case 'Deposit History':
+      body = `<div class="page-grid">${metricCard('TOTAL DEPOSITS','$0.00','Demo account')}${metricCard('PENDING REQUESTS','0','No verified requests')}</div><div class="page-card"><h3>Deposit records</h3>${tableMarkup(['REFERENCE','DATE','AMOUNT','METHOD','STATUS'],demoRows[page])}</div>`;
+      break;
+    case 'Recharge':
+      body = `<div class="page-card"><h3>Recharge / Add funds</h3><div class="page-form">${formField('Amount (USD)','number','Enter amount')}<div><label>Payment method</label><select><option>Choose method</option><option>USDT (BEP-20)</option><option>Other (configure later)</option></select></div><div class="full"><label>Transaction hash / reference</label><input placeholder="Enter payment reference"></div></div><div style="margin-top:16px">${action('SUBMIT RECHARGE REQUEST')}</div><p class="page-muted">Demo only. No wallet address or payment gateway is configured.</p></div>`;
+      break;
+    case 'Fund Transfer':
+      body = `<div class="page-card"><h3>Transfer funds</h3><div class="page-form">${formField('Receiver user ID')}${formField('Amount (USD)','number','Enter amount')}<div class="full"><label>Note (optional)</label><textarea placeholder="Add a note"></textarea></div></div><div style="margin-top:16px">${action('REVIEW TRANSFER')}</div><p class="page-muted">No funds can be transferred in this front-end preview.</p></div>`;
+      break;
+    case 'Wallet to Fund':
+      body = `<div class="page-card"><h3>Wallet conversion</h3><div class="page-form"><div><label>From wallet</label><select><option>Income wallet</option><option>Reward wallet</option></select></div><div><label>To wallet</label><select><option>Fund wallet</option></select></div>${formField('Amount (USD)','number','Enter amount')}</div><div style="margin-top:16px">${action('PREVIEW CONVERSION')}</div></div>`;
+      break;
+    case 'Support and Raise Ticket':
+      body = `<div class="page-card"><h3>Create support ticket</h3><div class="page-form"><div><label>Category</label><select><option>Choose category</option><option>Deposit</option><option>Withdrawal</option><option>Account / Profile</option><option>Package</option><option>Other</option></select></div>${formField('Subject')}<div class="full"><label>Describe your issue</label><textarea placeholder="Write your message here..."></textarea></div><div class="full">${action('SUBMIT TICKET')}</div></div></div>`;
+      break;
+    case 'Ticket Reply':
+      body = `<div class="page-card"><h3>Support conversations</h3><p class="page-muted">No support replies are connected yet. Once the support system is integrated, your ticket replies will appear here.</p>${tableMarkup(['TICKET ID','SUBJECT','LAST UPDATE','STATUS'],[['TK-1001','Demo enquiry','—','No reply']])}</div>`;
+      break;
+    default: {
+      const data = demoRows[page];
+      const headers = ({
+        'Direct Team':['USER ID','NAME','JOINED','TOP-UP','STATUS'],
+        'Level Team':['LEVEL','TEAM SIZE','BUSINESS','INCOME'],
+        'Team Business':['BUSINESS TYPE','MEMBERS','AMOUNT'],
+        'Salary Achievers':['MONTH','LEVEL 1','LEVEL 2','STATUS'],
+        'Lucky Winners':['SR. NO.','USER ID','NAME','REWARD TIER'],
+        'Daily ROI Income':['DATE','AMOUNT','SOURCE'],
+        'Direct Income':['DATE','AMOUNT','DETAILS'],
+        'Daily Level Income':['LEVEL','AMOUNT','TEAM']
+      })[page] || ['REFERENCE','DATE','TYPE','AMOUNT','STATUS'];
+      body = `<div class="page-card"><h3>${page} report</h3><input class="table-search" placeholder="Search this report..." oninput="filterPageTable(this.value)">${tableMarkup(headers,data || [])}<p class="page-muted">Sample rows are illustrative only. Connect verified account records to show real data.</p></div>`;
+    }
+  }
+  return heading + body;
+}
+const pageDescriptions = {
+  'System Live Feed':'System notices, service status and important member announcements.',
+  'Live Trading':'Review the trading activity panel. Live market data is not connected in this preview.',
+  'My Profile':'View and update your basic member contact details.',
+  'Package Details':'Browse the package catalogue and its displayed details.',
+  'My Packages':'Review active and completed package records.',
+  'Compound Packages':'Set your preferred compounding option for demonstration.',
+  'Deposit History':'Review deposit requests, payment methods and their statuses.',
+  'Direct Team':'View members registered directly under your referral.',
+  'Level Team':'Review team members grouped by level.',
+  'Team Business':'View direct and team business summaries.',
+  'Salary Achievers':'Review the displayed monthly qualification progress.',
+  'Lucky Winners':'Monthly lucky winner program, reward tiers and searchable winners list.',
+  'Daily ROI Income':'Review daily ROI entries when a verified backend is connected.',
+  'Direct Income':'Review referral income entries.',
+  'Daily Level Income':'Review level-wise income entries.',
+  'Wallet History':'Review wallet credit and debit history.',
+  'Withdrawals':'Review withdrawal requests and their statuses.',
+  'Support and Raise Ticket':'Create a support request for account assistance.',
+  'Ticket Reply':'Read support ticket updates and replies.',
+  'Recharge':'Create a demo recharge request.',
+  'Fund Transfer':'Prepare a demo member-to-member transfer.',
+  'Wallet to Fund':'Preview a wallet-to-fund conversion.'
+};
+function showPage(page){
+  document.querySelectorAll('.menu-item').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
+  const isDash=page==='Dashboard';
+  $('dashboardPage').classList.toggle('hidden',!isDash);
+  $('otherPage').classList.toggle('hidden',isDash);
+  if(!isDash) {
+    $('pageContent').innerHTML=renderPage(page);
+    if(page==='Lucky Winners'){
+      const filter=$('luckyRewardFilter'), search=$('luckySearch');
+      const applyLuckyFilters=()=>{
+        const tier=filter.value, query=search.value.trim().toLowerCase();
+        $('luckyTable').querySelectorAll('tbody tr').forEach(row=>{
+          const tierMatch=tier==='all'||row.dataset.tier===tier;
+          const textMatch=row.textContent.toLowerCase().includes(query);
+          row.style.display=tierMatch&&textMatch?'':'none';
+        });
+      };
+      filter.addEventListener('change',applyLuckyFilters);
+      search.addEventListener('input',applyLuckyFilters);
+    }
+  }
+  if(window.innerWidth<850){$('sidebar').classList.remove('open');$('layout').classList.remove('menu-open')}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function filterPageTable(query){
+  const q=query.trim().toLowerCase();
+  const table=$('pageContent').querySelector('.page-table tbody');
+  if(!table)return;
+  table.querySelectorAll('tr').forEach(row=>row.style.display=row.textContent.toLowerCase().includes(q)?'':'none');
+}
+
+document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>showPage(el.dataset.page)));
+$('backDashboard').addEventListener('click',()=>showPage('Dashboard'));
+document.querySelectorAll('.package-invest').forEach(btn=>btn.addEventListener('click',()=>notify(btn.dataset.package+' selected — demo only. No payment processed.')));
+$('copyReferral').addEventListener('click',async()=>{const value=$('referralLink').value;try{await navigator.clipboard.writeText(value);notify('Referral link copied!')}catch(e){$('referralLink').select();document.execCommand('copy');notify('Referral link selected/copied.')}});
+
+$('tradingSearch').addEventListener('input',e=>{
+  const query=e.target.value.trim().toLowerCase();
+  document.querySelectorAll('#tradingTable tbody tr').forEach(row=>{
+    row.style.display=row.cells[0].textContent.toLowerCase().includes(query)?'':'none';
+  });
+});
+let toastTimer;function notify(message){$('toast').textContent=message;$('toast').classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.add('hidden'),2500)}
+
+function initRoute(){
+  const params=new URLSearchParams(window.location.search);
+  const hash=(window.location.hash||'').toLowerCase();
+  const path=window.location.pathname.toLowerCase();
+  if(params.get('mode')==='register'||hash.includes('register')||path.includes('register')){
+    showScreen('registerScreen');
+  } else if(params.get('mode')==='login'||hash.includes('login')||path.includes('login')){
+    showScreen('loginScreen');
+  } else {
+    let name='Sandeep Sah', id='WT-100234';
+    try {
+      const saved=localStorage.getItem('user');
+      if(saved){
+        const u=JSON.parse(saved);
+        if(u.name) name=u.name;
+        if(u.userId) id=u.userId;
       }
-      if (window.location.pathname.includes('dashboard')) {
-        window.history.replaceState({}, '', window.location.pathname.startsWith('/world') ? '/world/dashboard' : '/dashboard');
-      }
-      if (!localStorage.getItem('user') || !localStorage.getItem('token')) {
-        const demoUser = {
-          _id: "671234567890abcdef123456",
-          userId: "100234",
-          name: "Sandeep Sah",
-          email: "sandeepsah808@gmail.com",
-          phone: "+91 98765 43210",
-          walletAddress: "0x71C8705a3A85e053fA7c4f4a5C3f24D08dF83944",
-          walletBalance: 2500,
-          usdtBep20Balance: 1250,
-          topUpAmount: 1000,
-          totalEarnings: 3750,
-          totalDirectIncome: 850,
-          totalLevelIncome: 650,
-          totalRoiIncome: 1200,
-          totalRewardIncome: 450,
-          totalFastTrackIncome: 600,
-          poolIncome: 0,
-          paidDirectCount: 6,
-          totalTeam: 24,
-          activeTeam: 18,
-          role: "normal",
-          status: "active",
-          isSponsorDeactivated: false,
-          sponsorId: "WT10001",
-          sponsorName: "World Admin",
-          createdAt: "2026-08-15T10:00:00.000Z",
-          updatedAt: new Date().toISOString()
-        };
-        const demoStats = {
-          totalGrandInvestment: 384520,
-          todayTotalInvestment: 18650,
-          isFetching: false
-        };
-        const demoToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTIzNDU2Nzg5MGFiY2RlZjEyMzQ1NiIsInVzZXJJZCI6IjEwMDIzNCJ9.mockSign";
-        localStorage.setItem("user", JSON.stringify(demoUser));
-        localStorage.setItem("token", demoToken);
-        localStorage.setItem("dash_user_100234", JSON.stringify(demoUser));
-        localStorage.setItem("dash_stats", JSON.stringify(demoStats));
-      }
-    </script>
-    
-    <!-- Site Icon -->
-    <link rel="icon" type="image/svg+xml" href="./logo.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#2b4450" />
-
-    <!-- Primary Meta Tags -->
-    <title>World together | Secure Crypto Investment & Staking Platform</title>
-    <meta name="title" content="World together | Secure Crypto Investment & Staking Platform" />
-    <meta name="description" content="Join World together, the most trusted decentralized crypto platform. Grow your assets, earn daily ROI, and build a strong financial future." />
-    <meta name="keywords" content="World together, Blockchain, Crypto Investment, USDT, Decentralized, Staking, Daily ROI, World together" />
-    <meta name="author" content="World together Team" />
-
-    <!-- Open Graph / WhatsApp / Telegram Sharing Preview -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="World together | Secure Crypto Investment Platform" />
-    <meta property="og:description" content="Start your journey with World together. Transparent daily ROI, secure network, and high returns. Join us today!" />
-    <meta property="og:image" content="./banner.jpg" />
-
-    <!-- Twitter Card -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="World together | Secure Crypto Investment Platform" />
-    <meta property="twitter:description" content="Start your journey with World together. Transparent daily ROI, secure network, and high returns. Join us today!" />
-
-    <link rel="modulepreload" crossorigin href="./assets/createLucideIcon-Brpa_ae6.js">
-    <link rel="stylesheet" crossorigin href="./assets/createLucideIcon-C7t1gra3.css">
-    <link rel="stylesheet" crossorigin href="./assets/index-BMIxvOI5.css">
-    <script type="module" crossorigin src="./assets/index-ByXRP1PE.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+    }catch(e){}
+    openDashboard(name,id);
+  }
+}
+window.addEventListener('DOMContentLoaded',initRoute);
+initRoute();
+</script>
+</body>
 </html>

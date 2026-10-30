@@ -1,58 +1,53 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <script>
-      if (window.location.pathname.startsWith('/world')) {
-        const base = document.createElement('base');
-        base.href = '/world/';
-        document.head.prepend(base);
-      }
-      if (window.location.pathname.includes('dashboard')) {
-        window.history.replaceState({}, '', window.location.pathname.startsWith('/world') ? '/world/dashboard' : '/dashboard');
-      }
-      if (!localStorage.getItem('user') || !localStorage.getItem('token')) {
-        const demoUser = {
-          _id: "671234567890abcdef123456",
-          userId: "100234",
-          name: "Sandeep Sah",
-          email: "sandeepsah808@gmail.com",
-          phone: "+91 98765 43210",
-          walletAddress: "0x71C8705a3A85e053fA7c4f4a5C3f24D08dF83944",
-          walletBalance: 2500,
-          usdtBep20Balance: 1250,
-          topUpAmount: 1000,
-          totalEarnings: 3750,
-          totalDirectIncome: 850,
-          totalLevelIncome: 650,
-          totalRoiIncome: 1200,
-          totalRewardIncome: 450,
-          totalFastTrackIncome: 600,
-          poolIncome: 0,
-          paidDirectCount: 6,
-          totalTeam: 24,
-          activeTeam: 18,
-          role: "normal",
-          status: "active",
-          isSponsorDeactivated: false,
-          sponsorId: "WT10001",
-          sponsorName: "World Admin",
-          createdAt: "2026-08-15T10:00:00.000Z",
-          updatedAt: new Date().toISOString()
-        };
-        const demoStats = {
-          totalGrandInvestment: 384520,
-          todayTotalInvestment: 18650,
-          isFetching: false
-        };
-        const demoToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTIzNDU2Nzg5MGFiY2RlZjEyMzQ1NiIsInVzZXJJZCI6IjEwMDIzNCJ9.mockSign";
-        localStorage.setItem("user", JSON.stringify(demoUser));
-        localStorage.setItem("token", demoToken);
-        localStorage.setItem("dash_user_100234", JSON.stringify(demoUser));
-        localStorage.setItem("dash_stats", JSON.stringify(demoStats));
-      }
+      (function() {
+        var p = window.location.pathname;
+        var isWorld = p.indexOf('/world') === 0;
+        var baseHref = isWorld ? '/world/' : '/';
+        if (isWorld) {
+          var base = document.createElement('base');
+          base.href = '/world/';
+          document.head.prepend(base);
+        }
+        if (p.indexOf('/dashboard') !== -1) {
+          window.location.replace(baseHref + 'dashboard.html' + window.location.search + window.location.hash);
+          return;
+        }
+        if (p.indexOf('/login') !== -1) {
+          window.location.replace(baseHref + 'dashboard.html?mode=login' + window.location.hash);
+          return;
+        }
+        if (p.indexOf('/register') !== -1) {
+          window.location.replace(baseHref + 'dashboard.html?mode=register' + window.location.hash);
+          return;
+        }
+
+        document.addEventListener('click', function(e) {
+          var t = e.target.closest('a, button');
+          if (!t) return;
+          var txt = (t.textContent || '').trim().toLowerCase();
+          var href = (t.getAttribute('href') || '').toLowerCase();
+          var to = (t.getAttribute('to') || '').toLowerCase();
+          var isW = window.location.pathname.indexOf('/world') === 0;
+          var b = isW ? '/world/' : '/';
+
+          if (txt === 'login' || txt === 'member login' || href === '/login' || to === '/login' || href === '#/login') {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = b + 'dashboard.html?mode=login';
+          } else if (txt === 'register' || txt === 'sign up' || href === '/register' || to === '/register' || href === '#/register') {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = b + 'dashboard.html?mode=register';
+          } else if (txt === 'dashboard' || href === '/dashboard' || to === '/dashboard') {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = b + 'dashboard.html';
+          }
+        }, true);
+      })();
     </script>
-    
     <!-- Site Icon -->
     <link rel="icon" type="image/svg+xml" href="./logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
