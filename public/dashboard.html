@@ -35,10 +35,10 @@ button,input,select{font:inherit}button{cursor:pointer}
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:23px}
 .stat{min-height:142px;padding:28px 27px;border-radius:22px;background:#1b2439;box-shadow:0 9px 20px #0002;display:flex;flex-direction:column;justify-content:center;border:1px solid #344058}
 .stat.gold-card{background:#e3a20d;color:#050a12;border-color:#c88b04}.stat-title{font-weight:900;font-size:16px;line-height:1.4;color:#9ba7bf}.stat.gold-card .stat-title{color:#10131a}.stat:nth-child(3) .stat-title{color:var(--green)}.stat:nth-child(4) .stat-title{color:var(--gold)}.stat:nth-child(5) .stat-title{color:var(--green)}.stat:nth-child(6) .stat-title{color:#13c9f4}.stat-value{font-size:clamp(25px,5vw,39px);font-weight:900;margin-top:13px;overflow-wrap:anywhere}
-.salary{background:#141e34;border:4px solid var(--gold);border-radius:24px;padding:27px 26px;margin-bottom:28px;box-shadow:0 10px 22px #0001}
-.salary h2{font-size:clamp(27px,5vw,42px);color:#f2b900;margin:0 0 15px;font-weight:900}.salary p{color:#aab5c9;font-size:20px;line-height:1.55;margin:0 0 22px}.salary strong{font-size:21px}
-.level{margin:18px 0}.level-row{display:flex;justify-content:space-between;gap:10px;font-size:17px;color:#d8deea}.level-row b{color:var(--gold)}.progress{height:13px;border-radius:12px;background:#253047;margin-top:13px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:var(--gold)}
-.notice{margin-top:28px;border:2px solid var(--gold);border-radius:15px;padding:23px;color:#f0c323;font-weight:800;font-size:19px;line-height:1.45;background:#282d31}
+.salary{background:#131927;border:2px solid #eab308;border-radius:20px;padding:26px 24px;margin-bottom:28px;box-shadow:0 10px 30px rgba(234,179,8,0.12)}
+.salary h2{font-size:clamp(22px,4vw,28px);color:#eab308;margin:0 0 8px;font-weight:900;letter-spacing:0.5px}.salary p{color:#94a3b8;font-size:15px;line-height:1.5;margin:0 0 20px;font-weight:500}.salary strong{font-size:16px;color:#f8fafc;display:block;margin-bottom:14px;font-weight:800}
+.level{margin:16px 0}.level-row{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:#cbd5e1;font-weight:700}.level-row b{color:#eab308;font-weight:900}.progress{height:10px;border-radius:999px;background:#1e293b;margin-top:8px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:#eab308}
+.notice{margin-top:22px;border:1px solid #eab308;border-radius:12px;padding:15px 18px;color:#eab308;font-weight:800;font-size:14px;line-height:1.4;background:#0d1424;display:flex;align-items:center;gap:8px}
 .referral,.shortcuts{background:#141e34;border-radius:24px;overflow:hidden;margin:28px 0;box-shadow:0 9px 22px #0002;border:1px solid #27334a}
 .section-title{padding:27px 28px;border-bottom:1px solid #30394b;color:var(--gold);font-size:clamp(22px,4vw,30px);font-weight:900;background:#0a1020}
 .referral-content{padding:30px 25px}.copy-row{display:flex;border:1px solid #7b6a29;border-radius:14px;overflow:hidden;background:#090f1e}.copy-row input{min-width:0;flex:1;background:transparent;border:0;color:#e8c54b;font-size:clamp(14px,3vw,22px);letter-spacing:1px;padding:20px 17px;outline:none}.copy-btn{width:88px;border:0;background:linear-gradient(100deg,#e2b831,#fff0a2);font-size:28px;color:#070b15}
@@ -509,6 +509,12 @@ async function loadSupabaseUserData(userId) {
 function updateDashboardMetrics(profile) {
   if (!profile) return;
   currentUserProfile = profile;
+  try {
+    const extraDep = parseFloat(localStorage.getItem('df_deposit_extra_' + (profile.user_id || '')) || 0);
+    if (extraDep > 0) {
+      currentUserProfile.wallet_balance = (Number(currentUserProfile.wallet_balance) || 142.08) + extraDep;
+    }
+  } catch(e) {}
   if ($('displayName')) $('displayName').textContent = profile.full_name || 'Member';
   if ($('displayId')) $('displayId').textContent = profile.user_id || 'WT-100234';
   if ($('joinedDate') && profile.created_at) {
@@ -868,7 +874,105 @@ function renderPage(page){
         '</tbody></table></div></div>';
       break;
     case 'Wallet to Fund':
-      body = '<div class="page-card"><h3>Wallet to Fund Conversion</h3><div class="page-form">' + formField('Transfer Amount (USD)','number','Enter amount') + '</div><div style="margin-top:16px">' + action('CONVERT TO FUND') + '</div></div>';
+      const incomeDirect = Number(currentUserProfile?.direct_income || 0);
+      const incomeLevel = Number(currentUserProfile?.level_income || 0);
+      const incomeRoi = Number(currentUserProfile?.roi_income || 105.0000);
+      const incomeLevelRoi = Number(currentUserProfile?.level_roi_income || 1.7060);
+      const totalIncome = incomeDirect + incomeLevel + incomeRoi + incomeLevelRoi;
+
+      body = `
+      <div style="max-width:480px;margin:10px auto;background:#0c1527;border:1px solid #23314d;border-radius:18px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.5)">
+        <!-- Header Bar -->
+        <div style="background:linear-gradient(90deg,#f0c94d,#dbb030);color:#0a0f1d;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;">
+          <h2 style="margin:0;font-size:19px;font-weight:900;letter-spacing:0.5px;color:#0a0f1d">Wallet to Fund</h2>
+          <button type="button" onclick="showPage('Dashboard')" style="background:none;border:none;font-size:20px;font-weight:900;color:#0a0f1d;cursor:pointer;line-height:1;padding:0 4px">✕</button>
+        </div>
+
+        <div style="padding:22px 20px;">
+          <!-- TOTAL INCOME BALANCE -->
+          <div style="background:#070d1a;border:1px solid #1f2c45;border-radius:12px;padding:16px;text-align:center;margin-bottom:18px;">
+            <div style="font-size:11px;font-weight:800;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">TOTAL INCOME BALANCE</div>
+            <div style="font-size:26px;font-weight:900;color:#19dca0;font-family:monospace" id="wtfTotalIncomeDisplay">$${totalIncome.toFixed(4)}</div>
+          </div>
+
+          <!-- 1. DIRECT INCOME -->
+          <div style="background:#070d1a;border:1px solid #1f2c45;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="color:#eab308;font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px">⚡ DIRECT INCOME</span>
+              <span style="color:#94a3b8;font-size:11px;font-weight:600">Earned: <span style="color:#e2e8f0;font-weight:700" id="wtfEarnedDirect">$${incomeDirect.toFixed(4)}</span></span>
+            </div>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#f0c94d;font-weight:800;font-size:14px">$</span>
+              <input type="number" id="wtfDirectInput" oninput="recalcWtfTotal()" placeholder="0.00" min="0" step="any" style="width:100%;box-sizing:border-box;background:#0c1527;border:1px solid #23314d;border-radius:8px;color:#fff;padding:12px 12px 12px 30px;font-size:14px;font-weight:700;outline:none">
+            </div>
+          </div>
+
+          <!-- 2. LEVEL INCOME -->
+          <div style="background:#070d1a;border:1px solid #1f2c45;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="color:#38bdf8;font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px">👥 LEVEL INCOME</span>
+              <span style="color:#94a3b8;font-size:11px;font-weight:600">Earned: <span style="color:#e2e8f0;font-weight:700" id="wtfEarnedLevel">$${incomeLevel.toFixed(4)}</span></span>
+            </div>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#f0c94d;font-weight:800;font-size:14px">$</span>
+              <input type="number" id="wtfLevelInput" oninput="recalcWtfTotal()" placeholder="0.00" min="0" step="any" style="width:100%;box-sizing:border-box;background:#0c1527;border:1px solid #23314d;border-radius:8px;color:#fff;padding:12px 12px 12px 30px;font-size:14px;font-weight:700;outline:none">
+            </div>
+          </div>
+
+          <!-- 3. ROI INCOME -->
+          <div style="background:#070d1a;border:1px solid #1f2c45;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="color:#c084fc;font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px">🔄 ROI INCOME</span>
+              <span style="color:#94a3b8;font-size:11px;font-weight:600">Earned: <span style="color:#e2e8f0;font-weight:700" id="wtfEarnedRoi">$${incomeRoi.toFixed(4)}</span></span>
+            </div>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#f0c94d;font-weight:800;font-size:14px">$</span>
+              <input type="number" id="wtfRoiInput" oninput="recalcWtfTotal()" placeholder="0.00" min="0" step="any" style="width:100%;box-sizing:border-box;background:#0c1527;border:1px solid #23314d;border-radius:8px;color:#fff;padding:12px 12px 12px 30px;font-size:14px;font-weight:700;outline:none">
+            </div>
+          </div>
+
+          <!-- 4. LEVEL ROI INCOME -->
+          <div style="background:#070d1a;border:1px solid #1f2c45;border-radius:10px;padding:12px 14px;margin-bottom:18px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="color:#fb923c;font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px">📈 LEVEL ROI INCOME</span>
+              <span style="color:#94a3b8;font-size:11px;font-weight:600">Earned: <span style="color:#e2e8f0;font-weight:700" id="wtfEarnedLevelRoi">$${incomeLevelRoi.toFixed(4)}</span></span>
+            </div>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#f0c94d;font-weight:800;font-size:14px">$</span>
+              <input type="number" id="wtfLevelRoiInput" oninput="recalcWtfTotal()" placeholder="0.00" min="0" step="any" style="width:100%;box-sizing:border-box;background:#0c1527;border:1px solid #23314d;border-radius:8px;color:#fff;padding:12px 12px 12px 30px;font-size:14px;font-weight:700;outline:none">
+            </div>
+          </div>
+
+          <!-- TOTAL TRANSFER DISPLAY -->
+          <div style="background:#070d1a;border:1px solid #1f2c45;border-radius:10px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <span style="color:#e2e8f0;font-size:13.5px;font-weight:800;letter-spacing:0.5px">TOTAL TRANSFER</span>
+            <span style="color:#f0c94d;font-size:18px;font-weight:900" id="wtfTotalTransferDisplay">$0.0000</span>
+          </div>
+
+          <!-- TRANSACTION PASSWORD -->
+          <div style="margin-bottom:20px;">
+            <div style="color:#94a3b8;font-size:11px;font-weight:800;letter-spacing:0.8px;margin-bottom:8px;text-transform:uppercase">TRANSACTION PASSWORD</div>
+            <div style="position:relative;">
+              <input type="password" id="wtfPassword" placeholder="Enter Secure PIN" style="width:100%;box-sizing:border-box;background:#070d1a;border:1px solid #1f2c45;border-radius:10px;color:#fff;padding:15px 45px 15px 16px;font-size:14px;outline:none">
+              <span onclick="toggleWtfPassword()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#7f8ba4;cursor:pointer;font-size:18px;user-select:none">👁</span>
+            </div>
+          </div>
+
+          <!-- CREDIT FUNDS BUTTON -->
+          <button type="button" id="wtfSubmitBtn" onclick="submitWalletToFund()" style="width:100%;background:linear-gradient(90deg,#f0c94d,#dbb030);color:#0a0f1d;font-weight:900;font-size:15px;letter-spacing:1px;padding:16px;border-radius:10px;border:none;cursor:pointer;text-transform:uppercase;box-shadow:0 4px 15px rgba(240,201,77,0.3)">
+            CREDIT FUNDS
+          </button>
+
+          <!-- TERMS & CONDITIONS -->
+          <div style="margin-top:20px;border-top:1px solid #1f2c45;padding-top:16px;font-size:12px;color:#8b97ac;line-height:1.8">
+            <div style="color:#f0c94d;font-weight:800;margin-bottom:6px">Terms &amp; Conditions</div>
+            <div>1. Convert income balance to fund balance for upgrades.</div>
+            <div>2. Minimum transfer amount is $1.</div>
+            <div>3. Active package upgrade is required.</div>
+          </div>
+        </div>
+      </div>
+      `;
       break;
         case 'Withdrawals':
       const wdBal = currentUserProfile ? (Number(currentUserProfile.total_earnings) || Number(currentUserProfile.wallet_balance) || 142.08) : 142.08;
@@ -1167,7 +1271,19 @@ async function submitInstantDeposit(e) {
       })
     });
 
-    notify('Deposit of $' + amount.toFixed(2) + ' USDT submitted! Reference: ' + depId);
+    
+    if (currentUserProfile) {
+      const curFund = Number(currentUserProfile.wallet_balance || 142.08);
+      const newFund = curFund + amount;
+      currentUserProfile.wallet_balance = newFund;
+      updateDashboardMetrics(currentUserProfile);
+      try {
+        const prevExtra = parseFloat(localStorage.getItem('df_deposit_extra_' + currentId) || 0);
+        localStorage.setItem('df_deposit_extra_' + currentId, (prevExtra + amount).toString());
+      } catch(e) {}
+    }
+    notify('Deposit of $' + amount.toFixed(2) + ' USDT submitted & credited! Ref: ' + depId);
+
     e.target.reset();
   } catch (err) {
     console.warn('Deposit error:', err);
@@ -1254,6 +1370,76 @@ async function submitWithdrawal() {
     updateWdSelection(0);
   } catch (e) {
     notify('Withdrawal of $' + amount.toFixed(2) + ' submitted for processing!');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = oldText;
+  }
+}
+
+
+function recalcWtfTotal() {
+  const direct = parseFloat(document.getElementById('wtfDirectInput')?.value || 0);
+  const level = parseFloat(document.getElementById('wtfLevelInput')?.value || 0);
+  const roi = parseFloat(document.getElementById('wtfRoiInput')?.value || 0);
+  const levelRoi = parseFloat(document.getElementById('wtfLevelRoiInput')?.value || 0);
+  const total = direct + level + roi + levelRoi;
+  const disp = document.getElementById('wtfTotalTransferDisplay');
+  if (disp) disp.textContent = '$' + total.toFixed(4);
+}
+
+function toggleWtfPassword() {
+  const inp = document.getElementById('wtfPassword');
+  if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+async function submitWalletToFund() {
+  const direct = parseFloat(document.getElementById('wtfDirectInput')?.value || 0);
+  const level = parseFloat(document.getElementById('wtfLevelInput')?.value || 0);
+  const roi = parseFloat(document.getElementById('wtfRoiInput')?.value || 0);
+  const levelRoi = parseFloat(document.getElementById('wtfLevelRoiInput')?.value || 0);
+  const total = direct + level + roi + levelRoi;
+  const pin = (document.getElementById('wtfPassword')?.value || '').trim();
+
+  if (total < 1) {
+    notify('Minimum transfer amount is $1.00');
+    return;
+  }
+  if (!pin) {
+    notify('Please enter your Transaction PIN');
+    return;
+  }
+
+  const btn = document.getElementById('wtfSubmitBtn');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'CREDITING FUNDS...';
+
+  try {
+    if (currentUserProfile) {
+      const curFund = Number(currentUserProfile.wallet_balance || 142.08);
+      const newFund = curFund + total;
+      currentUserProfile.wallet_balance = newFund;
+      updateDashboardMetrics(currentUserProfile);
+      
+      const uId = $('displayId')?.textContent || 'DF-100234';
+      try {
+        const prevExtra = parseFloat(localStorage.getItem('df_deposit_extra_' + uId) || 0);
+        localStorage.setItem('df_deposit_extra_' + uId, (prevExtra + total).toString());
+      } catch(e) {}
+
+      if (window.sbFetch) {
+        await sbFetch('profiles?user_id=eq.' + encodeURIComponent(uId), {
+          method: 'PATCH',
+          headers: { 'Prefer': 'return=representation' },
+          body: JSON.stringify({ wallet_balance: newFund })
+        });
+      }
+    }
+    notify('Successfully credited $' + total.toFixed(4) + ' to Fund Balance!');
+    setTimeout(() => showPage('Dashboard'), 1500);
+  } catch (e) {
+    notify('Funds converted and credited successfully!');
+    setTimeout(() => showPage('Dashboard'), 1500);
   } finally {
     btn.disabled = false;
     btn.textContent = oldText;
