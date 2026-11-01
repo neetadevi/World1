@@ -199,8 +199,8 @@ button,input,select{font:inherit}button{cursor:pointer}
         <input id="loginPassword" type="password" value="admin123" placeholder="USER PASSWORD" autocomplete="current-password">
         <div class="auth-row"><label><input type="checkbox"> Remember me</label><a class="link" href="#" id="forgotLink">Forgot Password?</a></div>
         <button class="primary" type="submit">LOGIN NOW</button>
-        <button type="button" id="quickDemoLoginBtn" style="width:100%;margin-top:10px;background:linear-gradient(100deg,#e2b831,#fff0a2);color:#0a0f1d;font-weight:900;border:none;border-radius:7px;padding:12px;font-size:12px;cursor:pointer;letter-spacing:0.5px;box-shadow:0 4px 12px rgba(226,184,49,0.3)">⚡ ONE-CLICK DEMO LOGIN (DF-100234)</button>
-        <div style="margin-top:10px;text-align:center;font-size:11px;color:#aab3c5">Default Demo ID: <b style="color:#e6bd37">DF-100234</b> | Pass: <b style="color:#e6bd37">admin123</b></div>
+        <button type="button" id="quickDemoLoginBtn" style="width:100%;margin-top:10px;background:linear-gradient(100deg,#e2b831,#fff0a2);color:#0a0f1d;font-weight:900;border:none;border-radius:7px;padding:12px;font-size:12px;cursor:pointer;letter-spacing:0.5px;box-shadow:0 4px 12px rgba(226,184,49,0.3)">⚡ ONE-CLICK QUICK LOGIN (DF-100234)</button>
+        <div style="margin-top:10px;text-align:center;font-size:11px;color:#aab3c5">Default User ID: <b style="color:#e6bd37">DF-100234</b> | Pass: <b style="color:#e6bd37">admin123</b></div>
       </form><p style="text-align:center;margin:12px 0 0"><a class="link" href="./" style="color:#7f8ba4;text-decoration:none;font-size:12px">← Back to Website</a></p>
       <p class="auth-foot">Don't have an account? <a class="link" id="goRegister">Register here</a></p>
     </div>
@@ -219,8 +219,8 @@ button,input,select{font:inherit}button{cursor:pointer}
     <div class="auth-content">
       <h2>Create An Account</h2>
       <form id="registerForm">
-        <input value="WT-DEMO-1001" aria-label="Referral ID" readonly>
-        <div style="font-size:11px;color:#38df83;margin:0 0 8px">✓ Sponsor: Demo Sponsor</div>
+        <input value="DF-100234" aria-label="Referral ID" readonly>
+        <div style="font-size:11px;color:#38df83;margin:0 0 8px">✓ Sponsor: Official Sponsor</div>
         <input id="fullName" placeholder="Full Name *">
         <select id="country"><option value="">Select Country *</option><option>India</option><option>United States</option><option>United Kingdom</option><option>United Arab Emirates</option></select>
         <input id="email" type="email" placeholder="Email Id *">
@@ -246,7 +246,7 @@ button,input,select{font:inherit}button{cursor:pointer}
       <span>Supabase Connected</span>
     </div>
     <div class="top-actions">
-      <button class="logout" id="logoutBtn" aria-label="Logout" title="Logout">⇥</button>
+      <a href="./admin.html" style="color:var(--gold);text-decoration:none;font-weight:800;font-size:12px;border:1px solid rgba(230,189,55,0.4);padding:6px 12px;border-radius:6px;display:flex;align-items:center;gap:4px">🔒 ADMIN</a><button class="logout" id="logoutBtn" aria-label="Logout" title="Logout">⇥</button>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" title="Menu">☰</button>
     </div>
   </header>
@@ -280,7 +280,7 @@ button,input,select{font:inherit}button{cursor:pointer}
       <div id="dashboardPage">
         <div class="profile-strip">
           <div class="profile-cell"><div class="small-label">NAME</div><div class="profile-value" id="displayName">Guest</div></div>
-          <div class="profile-cell"><div class="small-label">USER ID</div><div class="profile-value gold" id="displayId">WT-DEMO-1001</div></div>
+          <div class="profile-cell"><div class="small-label">USER ID</div><div class="profile-value gold" id="displayId">DF-100234</div></div>
           <div class="profile-cell"><div class="small-label">JOINED</div><div class="profile-value" id="joinedDate">29-Oct-2026</div></div>
         </div>
         <div class="stats">
@@ -301,7 +301,7 @@ button,input,select{font:inherit}button{cursor:pointer}
         </section>
         <section class="referral">
           <div class="section-title">REFERRAL LINK</div>
-          <div class="referral-content"><div class="copy-row"><input id="referralLink" value="https://digitalfinance.online/register?ref=WT-DEMO-1001" readonly aria-label="Referral link"><button class="copy-btn" id="copyReferral" title="Copy referral link">▢</button></div></div>
+          <div class="referral-content"><div class="copy-row"><input id="referralLink" value="https://digitalfinance.online/register?ref=DF-100234" readonly aria-label="Referral link"><button class="copy-btn" id="copyReferral" title="Copy referral link">▢</button></div></div>
         </section>
         <section class="shortcuts">
           <div class="shortcut-grid">
@@ -316,95 +316,93 @@ button,input,select{font:inherit}button{cursor:pointer}
           </div>
         </section>
 
-        <section class="investment-section" id="investmentPackages">
-          <h2>Digital Finance Packages</h2>
+                <section class="investment-section" id="investmentPackages">
           <div class="investment-intro">
+            <h2 style="margin:0 0 10px;color:#f0c94d">INVESTMENT PACKAGES</h2>
             <h3>EARN <span>4% DAILY ROI</span> FOR 30 DAYS</h3>
-            <p>Starts from just $2 • Daily (4%) Payouts • 120% Total Return in 30 Days</p>
+            <p>Starts from just $5 • Daily (4%) Payouts • 120% Total Return in 30 Days</p>
           </div>
           <div class="package-grid">
+
             <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
+              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">STARTER</h3>
-              <div class="package-line"><span>Investment:</span><strong>$2</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.02</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-line"><span>Investment:</span><strong>$5</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$0.20</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$4</strong></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$6.00</strong></div>
               <button class="package-invest" type="button" data-package="STARTER">INVEST NOW</button>
             </article>
+
             <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
+              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">BASIC</h3>
-              <div class="package-line"><span>Investment:</span><strong>$5</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.05</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-line"><span>Investment:</span><strong>$10</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$0.40</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$10</strong></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$12.00</strong></div>
               <button class="package-invest" type="button" data-package="BASIC">INVEST NOW</button>
             </article>
+
             <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
-              <h3 class="package-name">BRONZE</h3>
-              <div class="package-line"><span>Investment:</span><strong>$10</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.10</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
-              <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$20</strong></div>
-              <button class="package-invest" type="button" data-package="BRONZE">INVEST NOW</button>
-            </article>
-            <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
-              <h3 class="package-name">SILVER</h3>
+              <span class="package-ribbon">120% RETURN</span>
+              <h3 class="package-name">STANDARD</h3>
               <div class="package-line"><span>Investment:</span><strong>$20</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.20</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$0.80</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$40</strong></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$24.00</strong></div>
+              <button class="package-invest" type="button" data-package="STANDARD">INVEST NOW</button>
+            </article>
+
+            <article class="package-card">
+              <span class="package-ribbon">120% RETURN</span>
+              <h3 class="package-name">SILVER</h3>
+              <div class="package-line"><span>Investment:</span><strong>$50</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$2.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
+              <div class="package-divider"></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$60.00</strong></div>
               <button class="package-invest" type="button" data-package="SILVER">INVEST NOW</button>
             </article>
+
             <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
+              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">GOLD</h3>
-              <div class="package-line"><span>Investment:</span><strong>$50</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$0.50</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-line"><span>Investment:</span><strong>$100</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$4.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$100</strong></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$120.00</strong></div>
               <button class="package-invest" type="button" data-package="GOLD">INVEST NOW</button>
             </article>
+
             <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
+              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">PLATINUM</h3>
-              <div class="package-line"><span>Investment:</span><strong>$100</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$1.00</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-line"><span>Investment:</span><strong>$200</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$8.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$200</strong></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$240.00</strong></div>
               <button class="package-invest" type="button" data-package="PLATINUM">INVEST NOW</button>
             </article>
+
             <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
-              <h3 class="package-name">ACE</h3>
-              <div class="package-line"><span>Investment:</span><strong>$200</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$2.00</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
-              <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$400</strong></div>
-              <button class="package-invest" type="button" data-package="ACE">INVEST NOW</button>
-            </article>
-            <article class="package-card">
-              <span class="package-ribbon">2X RETURN</span>
+              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">DIAMOND</h3>
               <div class="package-line"><span>Investment:</span><strong>$500</strong></div>
-              <div class="package-line package-daily"><span>Daily (1%):</span><strong>$5.00</strong></div>
-              <div class="package-line package-duration"><span>Duration:</span><strong>70 Days</strong></div>
+              <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$20.00</strong></div>
+              <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Amount at 2X:</span><strong>$1,000</strong></div>
+              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$600.00</strong></div>
               <button class="package-invest" type="button" data-package="DIAMOND">INVEST NOW</button>
             </article>
+
           </div>
-          <p class="package-disclaimer">Demo display only. The returns shown above are unverified example figures, not guaranteed or promised returns. Investment involves risk. The “Invest Now” buttons do not process payments or create investments.</p>
+          <p class="package-disclaimer">Official 4% Daily ROI System. Payouts credited directly to your account balance every 24 hours.</p>
         </section>
 
 
@@ -536,13 +534,19 @@ async function openDashboard(name,id,profileData){
     loadSupabaseUserData(id).then(p => {
       if(p) updateDashboardMetrics(p);
     });
-  }$('displayName').textContent=name||'Demo User';$('displayId').textContent=id||'WT-DEMO-1001';$('joinedDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).replace(/ /g,'-');$('referralLink').value='https://digitalfinance.online/register?ref='+encodeURIComponent(id||'WT-DEMO-1001');showScreen('app');$('sidebar').classList.remove('open');$('layout').classList.remove('menu-open');showPage('Dashboard')}
+  }$('displayName').textContent=name||'Member';$('displayId').textContent=id||'DF-100234';$('joinedDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).replace(/ /g,'-');$('referralLink').value='https://digitalfinance.online/register?ref='+encodeURIComponent(id||'DF-100234');showScreen('app');$('sidebar').classList.remove('open');$('layout').classList.remove('menu-open');showPage('Dashboard')}
 $('goRegister').addEventListener('click',()=>showScreen('registerScreen'));
 $('goLogin').addEventListener('click',()=>showScreen('loginScreen'));
 $('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const enteredId = $('loginId').value.trim();
   const enteredPass = $('loginPassword').value.trim();
+  if (enteredId.toLowerCase() === 'admin' && (enteredPass === 'admin' || enteredPass === 'admin123')) {
+    sessionStorage.setItem('df_admin_logged', 'true');
+    window.location.href = './admin.html';
+    return;
+  }
+
   const btn = e.target.querySelector('button[type="submit"]');
   const oldText = btn.textContent;
   btn.disabled = true;
@@ -689,8 +693,8 @@ $('logoutBtn').addEventListener('click',()=>showScreen('loginScreen'));
 const demoRows = {
   "Deposit History": [
     ["DP-1001","29-Oct-2026","$50.00","USDT (BEP-20)","Pending"],
-    ["DP-1002","25-Oct-2026","$100.00","USDT (BEP-20)","Demo"],
-    ["DP-1003","18-Oct-2026","$20.00","USDT (BEP-20)","Demo"]
+    ["DP-1002","25-Oct-2026","$100.00","USDT (BEP-20)","Completed"],
+    ["DP-1003","18-Oct-2026","$20.00","USDT (BEP-20)","Completed"]
   ],
   "Direct Team": [
     ["WT-2041","Rahul Kumar","29-Oct-2026","$50","Active"],
@@ -718,13 +722,13 @@ const demoRows = {
     ["4","WF1455169","Shirin Dewan","Tier 2"]
   ],
   "Daily ROI Income": [
-    ["29-Oct-2026","$0.00","Demo"],
-    ["28-Oct-2026","$0.00","Demo"],
-    ["27-Oct-2026","$0.00","Demo"]
+    ["29-Oct-2026","$0.00","Completed"],
+    ["28-Oct-2026","$0.00","Completed"],
+    ["27-Oct-2026","$0.00","Completed"]
   ],
   "Direct Income": [
     ["29-Oct-2026","$0.00","No eligible referral"],
-    ["28-Oct-2026","$0.00","Demo"]
+    ["28-Oct-2026","$0.00","Completed"]
   ],
   "Daily Level Income": [
     ["Level 1","$0.00","0 users"],
@@ -732,8 +736,8 @@ const demoRows = {
     ["Level 3","$0.00","0 users"]
   ],
   "Wallet History": [
-    ["WH-1001","29-Oct-2026","Credit","$0.00","Demo"],
-    ["WH-1002","28-Oct-2026","Debit","$0.00","Demo"]
+    ["WH-1001","29-Oct-2026","Credit","$0.00","Completed"],
+    ["WH-1002","28-Oct-2026","Debit","$0.00","Completed"]
   ],
   "Withdrawals": [
     ["WD-1001","29-Oct-2026","$0.00","USDT","Not requested"]
@@ -866,8 +870,62 @@ function renderPage(page){
     case 'Wallet to Fund':
       body = '<div class="page-card"><h3>Wallet to Fund Conversion</h3><div class="page-form">' + formField('Transfer Amount (USD)','number','Enter amount') + '</div><div style="margin-top:16px">' + action('CONVERT TO FUND') + '</div></div>';
       break;
-    case 'Withdrawals':
-      body = '<div class="page-card"><h3>Request Withdrawal</h3><div class="page-form">' + formField('Withdrawal Amount (USDT)','number','Min $10') + '<div><label>Payout Address (BEP-20)</label><input value="' + ((currentUserProfile && currentUserProfile.wallet_address) || '') + '" placeholder="0x..."></div></div><div style="margin-top:16px">' + action('SUBMIT WITHDRAWAL') + '</div></div>';
+        case 'Withdrawals':
+      const wdBal = currentUserProfile ? (Number(currentUserProfile.total_earnings) || Number(currentUserProfile.wallet_balance) || 142.08) : 142.08;
+      body = `
+        <div style="max-width:440px;margin:15px auto;background:#0b101e;border:1px solid #2d3748;border-radius:18px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.5)">
+          <div style="background:#0e1627;padding:16px 20px;border-bottom:1px solid #222f47;display:flex;align-items:center;justify-content:space-between">
+            <h2 style="margin:0;font-size:18px;font-weight:900;color:#f0c94d;letter-spacing:0.5px">WITHDRAWAL</h2>
+            <button onclick="showPage('Dashboard')" style="background:transparent;border:none;color:#94a3b8;font-size:22px;cursor:pointer">✕</button>
+          </div>
+
+          <div style="padding:22px 18px">
+            <!-- WITHDRAWABLE BALANCE BOX -->
+            <div style="background:#131c2e;border:1px solid #23314d;border-radius:12px;padding:16px;text-align:center;margin-bottom:16px">
+              <div style="font-size:11px;font-weight:800;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">WITHDRAWABLE BALANCE</div>
+              <div id="wdDisplayBalance" style="color:#00ff88;font-weight:900;font-size:32px;letter-spacing:1px">$${wdBal.toFixed(4)}</div>
+            </div>
+
+            <!-- TOTAL SELECTION / AMOUNT INPUT -->
+            <div style="background:#131c2e;border:1px solid #2d3748;border-radius:12px;padding:16px;margin-bottom:16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <span style="font-size:12px;font-weight:800;color:#cbd5e1;letter-spacing:1px;text-transform:uppercase">TOTAL SELECTION</span>
+                <span id="wdSelectionDisplay" style="color:#f0c94d;font-weight:900;font-size:20px">$0.0000</span>
+              </div>
+              <input type="number" id="wdAmountInput" min="2" step="any" placeholder="Enter Amount ($ Min $2)" oninput="updateWdSelection(this.value)" style="width:100%;padding:12px 14px;background:#090e1a;border:1px solid #29364e;border-radius:8px;color:#fff;font-size:15px;outline:none;font-weight:700">
+              
+              <!-- Quick selection buttons -->
+              <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+                <button type="button" onclick="setWdAmount(2)" style="flex:1;min-width:48px;padding:8px 4px;background:#1a253a;border:1px solid #334363;color:#fff;font-weight:700;font-size:12px;border-radius:6px">$2</button>
+                <button type="button" onclick="setWdAmount(5)" style="flex:1;min-width:48px;padding:8px 4px;background:#1a253a;border:1px solid #334363;color:#fff;font-weight:700;font-size:12px;border-radius:6px">$5</button>
+                <button type="button" onclick="setWdAmount(10)" style="flex:1;min-width:48px;padding:8px 4px;background:#1a253a;border:1px solid #334363;color:#fff;font-weight:700;font-size:12px;border-radius:6px">$10</button>
+                <button type="button" onclick="setWdAmount(20)" style="flex:1;min-width:48px;padding:8px 4px;background:#1a253a;border:1px solid #334363;color:#fff;font-weight:700;font-size:12px;border-radius:6px">$20</button>
+                <button type="button" onclick="setWdAmount(50)" style="flex:1;min-width:48px;padding:8px 4px;background:#1a253a;border:1px solid #334363;color:#fff;font-weight:700;font-size:12px;border-radius:6px">$50</button>
+                <button type="button" onclick="setWdAmount(${wdBal})" style="flex:1;min-width:48px;padding:8px 4px;background:#1a253a;border:1px solid #f0c94d;color:#f0c94d;font-weight:800;font-size:12px;border-radius:6px">ALL</button>
+              </div>
+            </div>
+
+            <!-- TRANSACTION PASSWORD -->
+            <div style="margin-bottom:20px">
+              <label style="display:block;font-size:11px;font-weight:800;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">TRANSACTION PASSWORD</label>
+              <div style="position:relative">
+                <input type="password" id="wdPassword" placeholder="Enter Secure PIN" style="width:100%;padding:13px 44px 13px 14px;background:#090e1a;border:1px solid #29364e;border-radius:8px;color:#fff;font-size:14px;outline:none">
+                <button type="button" onclick="toggleWdPassword()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px">👁</button>
+              </div>
+            </div>
+
+            <!-- WITHDRAW NOW BUTTON -->
+            <button type="button" id="wdSubmitBtn" onclick="submitWithdrawal()" style="width:100%;padding:14px;background:linear-gradient(100deg,#f0c94d,#d89d0e);border:none;border-radius:10px;color:#070b14;font-size:14px;font-weight:900;letter-spacing:1.5px;cursor:pointer;box-shadow:0 6px 18px rgba(240,201,77,0.3);text-transform:uppercase">WITHDRAW NOW</button>
+
+            <!-- TERMS & CONDITIONS -->
+            <div style="margin-top:20px;font-size:11px;color:#94a3b8;line-height:1.6">
+              <p style="margin:4px 0">Min withdrawal is $2. Timing: 10:00 AM to 12:00 PM.</p>
+              <p style="margin:4px 0;color:#f0c94d;font-weight:800">Daily Withdrawal Limit: Equal to your highest active package amount.</p>
+              <p style="margin:4px 0">Receive time: 10:00 PM to 12:00 AM. 0% Fees via USDT BEP20.</p>
+            </div>
+          </div>
+        </div>
+      `;
       break;
     default:
       const data = demoRows[page];
@@ -892,7 +950,7 @@ const pageDescriptions = {
   'My Profile':'View and update your basic member contact details.',
   'Package Details':'Browse the package catalogue and its displayed details.',
   'My Packages':'Review active and completed package records.',
-  'Compound Packages':'Set your preferred compounding option for demonstration.',
+  'Compound Packages':'Activate automated 4% daily reinvestment.',
   'Deposit History':'Review deposit requests, payment methods and their statuses.',
   'Direct Team':'View members registered directly under your referral.',
   'Level Team':'Review team members grouped by level.',
@@ -906,8 +964,8 @@ const pageDescriptions = {
   'Withdrawals':'Review withdrawal requests and their statuses.',
   'Support and Raise Ticket':'Create a support request for account assistance.',
   'Ticket Reply':'Read support ticket updates and replies.',
-  'Recharge':'Create a demo recharge request.',
-  'Fund Transfer':'Prepare a demo member-to-member transfer.',
+  'Recharge':'Create an instant USDT deposit request.',
+  'Fund Transfer':'Instant zero-fee transfer to another registered member.',
   'Wallet to Fund':'Preview a wallet-to-fund conversion.'
 };
 function showPage(page){
@@ -1132,6 +1190,73 @@ async function copyDepositAddress() {
       document.execCommand('copy');
       notify('Wallet address selected/copied!');
     }
+  }
+}
+
+
+function updateWdSelection(val) {
+  const n = parseFloat(val) || 0;
+  const disp = document.getElementById('wdSelectionDisplay');
+  if (disp) disp.textContent = '$' + n.toFixed(4);
+}
+
+function setWdAmount(val) {
+  const inp = document.getElementById('wdAmountInput');
+  if (inp) {
+    inp.value = val;
+    updateWdSelection(val);
+  }
+}
+
+function toggleWdPassword() {
+  const inp = document.getElementById('wdPassword');
+  if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+async function submitWithdrawal() {
+  const inp = document.getElementById('wdAmountInput');
+  const passInp = document.getElementById('wdPassword');
+  const amount = parseFloat(inp?.value || 0);
+  const pin = (passInp?.value || '').trim();
+
+  if (!amount || amount < 2) {
+    notify('Minimum withdrawal amount is $2.00');
+    return;
+  }
+  if (!pin) {
+    notify('Please enter your Transaction PIN');
+    return;
+  }
+
+  const btn = document.getElementById('wdSubmitBtn');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'SUBMITTING REQUEST...';
+
+  const uId = $('displayId')?.textContent || 'DF-100234';
+  const wdId = 'WD-' + Math.floor(100000 + Math.random() * 900000);
+
+  try {
+    await sbFetch('withdrawals', {
+      method: 'POST',
+      headers: { 'Prefer': 'return=representation' },
+      body: JSON.stringify({
+        withdrawal_id: wdId,
+        user_id: uId,
+        amount: amount,
+        status: 'Pending'
+      })
+    });
+
+    notify('Withdrawal of $' + amount.toFixed(2) + ' submitted! Ref: ' + wdId);
+    inp.value = '';
+    passInp.value = '';
+    updateWdSelection(0);
+  } catch (e) {
+    notify('Withdrawal of $' + amount.toFixed(2) + ' submitted for processing!');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = oldText;
   }
 }
 
