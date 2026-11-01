@@ -3,22 +3,24 @@
     <script>
       (function() {
         var p = window.location.pathname;
-        var isWorld = p.indexOf('/world') === 0;
-        var baseHref = isWorld ? '/world/' : '/';
-        if (isWorld) {
+        var m = p.match(/^\/([^\/]+)/);
+        var isGh = window.location.hostname.endsWith('github.io') && m;
+        var baseHref = isGh ? ('/' + m[1] + '/') : '/';
+        if (isGh) {
           var base = document.createElement('base');
-          base.href = '/world/';
+          base.href = baseHref;
           document.head.prepend(base);
         }
-        if (p.indexOf('/dashboard') !== -1) {
+        var pLower = p.toLowerCase();
+        if (pLower.indexOf('/dashboard') !== -1) {
           window.location.replace(baseHref + 'dashboard.html' + window.location.search + window.location.hash);
           return;
         }
-        if (p.indexOf('/login') !== -1) {
+        if (pLower.indexOf('/login') !== -1) {
           window.location.replace(baseHref + 'dashboard.html?mode=login' + window.location.hash);
           return;
         }
-        if (p.indexOf('/register') !== -1) {
+        if (pLower.indexOf('/register') !== -1) {
           window.location.replace(baseHref + 'dashboard.html?mode=register' + window.location.hash);
           return;
         }
@@ -29,21 +31,19 @@
           var txt = (t.textContent || '').trim().toLowerCase();
           var href = (t.getAttribute('href') || '').toLowerCase();
           var to = (t.getAttribute('to') || '').toLowerCase();
-          var isW = window.location.pathname.indexOf('/world') === 0;
-          var b = isW ? '/world/' : '/';
 
           if (txt === 'login' || txt === 'member login' || href === '/login' || to === '/login' || href === '#/login') {
             e.preventDefault();
             e.stopPropagation();
-            window.location.href = b + 'dashboard.html?mode=login';
+            window.location.href = baseHref + 'dashboard.html?mode=login';
           } else if (txt === 'register' || txt === 'sign up' || href === '/register' || to === '/register' || href === '#/register') {
             e.preventDefault();
             e.stopPropagation();
-            window.location.href = b + 'dashboard.html?mode=register';
+            window.location.href = baseHref + 'dashboard.html?mode=register';
           } else if (txt === 'dashboard' || href === '/dashboard' || to === '/dashboard') {
             e.preventDefault();
             e.stopPropagation();
-            window.location.href = b + 'dashboard.html';
+            window.location.href = baseHref + 'dashboard.html';
           }
         }, true);
       })();
