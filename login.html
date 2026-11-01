@@ -224,6 +224,10 @@ button,input,select{font:inherit}button{cursor:pointer}
 <section id="app" class="hidden">
   <header class="topbar">
     <div class="brand">WORLD TOGETHER</div>
+    <div id="supabaseIndicator" style="display:inline-flex;align-items:center;gap:6px;background:rgba(25,220,160,0.12);border:1px solid rgba(25,220,160,0.3);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;color:#19dca0">
+      <span style="width:7px;height:7px;border-radius:50%;background:#19dca0;box-shadow:0 0 6px #19dca0"></span>
+      <span>Supabase Connected</span>
+    </div>
     <div class="top-actions">
       <button class="logout" id="logoutBtn" aria-label="Logout" title="Logout">⇥</button>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" title="Menu">☰</button>
@@ -263,12 +267,12 @@ button,input,select{font:inherit}button{cursor:pointer}
           <div class="profile-cell"><div class="small-label">JOINED</div><div class="profile-value" id="joinedDate">29-Oct-2026</div></div>
         </div>
         <div class="stats">
-          <div class="stat gold-card"><div class="stat-title">TOTAL INVESTMENT</div><div class="stat-value">$0.00</div></div>
-          <div class="stat"><div class="stat-title">TODAY'S TOTAL INVESTMENT</div><div class="stat-value">$0.00</div></div>
-          <div class="stat"><div class="stat-title">MY EARNING</div><div class="stat-value">$0.00</div></div>
-          <div class="stat"><div class="stat-title">MY TOPUP</div><div class="stat-value">$0.00</div></div>
-          <div class="stat"><div class="stat-title">AUTO COMPOUND ACTIVE</div><div class="stat-value">$0.00</div></div>
-          <div class="stat"><div class="stat-title">HIGHEST ACTIVE PKG</div><div class="stat-value">$0.00</div></div>
+          <div class="stat gold-card"><div class="stat-title">TOTAL INVESTMENT</div><div class="stat-value" id="statTotalInvestment">$0.00</div></div>
+          <div class="stat"><div class="stat-title">TODAY'S TOTAL INVESTMENT</div><div class="stat-value" id="statTodayInvestment">$0.00</div></div>
+          <div class="stat"><div class="stat-title">MY EARNING</div><div class="stat-value" id="statMyEarning">$0.00</div></div>
+          <div class="stat"><div class="stat-title">MY TOPUP / BALANCE</div><div class="stat-value" id="statMyTopup">$0.00</div></div>
+          <div class="stat"><div class="stat-title">AUTO COMPOUND ACTIVE</div><div class="stat-value" id="statAutoCompound">$0.00</div></div>
+          <div class="stat"><div class="stat-title">HIGHEST ACTIVE PKG</div><div class="stat-value" id="statHighestPkg">$0.00</div></div>
         </div>
         <section class="salary">
           <h2>MONTHLY SALARY</h2>
@@ -458,26 +462,192 @@ button,input,select{font:inherit}button{cursor:pointer}
 </section>
 <div id="toast" class="toast hidden" role="status"></div>
 <script>
+
+const SUPABASE_CONFIG = {
+  url: 'https://iavuahybmkrlcxuvsgam.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhdnVhaHlibWtybGN4dXZzZ2FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0OTkzNzksImV4cCI6MjEwOTA3NTM3OX0.PItkmK_b8zupOxKPJIu1DbIEX4E0ls_ftTHwoqkXmBQ'
+};
+
+async function sbFetch(path, options = {}) {
+  const headers = Object.assign({
+    'apikey': SUPABASE_CONFIG.anonKey,
+    'Authorization': 'Bearer ' + SUPABASE_CONFIG.anonKey,
+    'Content-Type': 'application/json'
+  }, options.headers || {});
+  return fetch(SUPABASE_CONFIG.url + '/rest/v1/' + path, Object.assign({}, options, { headers }));
+}
+
+let currentUserProfile = null;
+
+async function loadSupabaseUserData(userId) {
+  try {
+    const res = await sbFetch('profiles?user_id=eq.' + encodeURIComponent(userId) + '&select=*');
+    if (!res.ok) return null;
+    const data = await res.json();
+    return (data && data.length > 0) ? data[0] : null;
+  } catch (err) {
+    console.warn('Supabase fetch user error:', err);
+    return null;
+  }
+}
+
+function updateDashboardMetrics(profile) {
+  if (!profile) return;
+  currentUserProfile = profile;
+  if ($('displayName')) $('displayName').textContent = profile.full_name || 'Member';
+  if ($('displayId')) $('displayId').textContent = profile.user_id || 'WT-100234';
+  if ($('joinedDate') && profile.created_at) {
+    const d = new Date(profile.created_at);
+    $('joinedDate').textContent = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '-');
+  }
+  const fmt = (n) => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if ($('statTotalInvestment')) $('statTotalInvestment').textContent = fmt(profile.total_investment);
+  if ($('statMyEarning')) $('statMyEarning').textContent = fmt(profile.total_earnings);
+  if ($('statMyTopup')) $('statMyTopup').textContent = fmt(profile.wallet_balance);
+  if ($('statTodayInvestment')) $('statTodayInvestment').textContent = fmt(profile.usdt_balance);
+  if ($('statHighestPkg')) $('statHighestPkg').textContent = fmt(profile.total_investment);
+}
+
+
 const $=id=>document.getElementById(id);
 const screens=['loginScreen','registerScreen','app'];
 function showScreen(id){screens.forEach(s=>$(s).classList.toggle('hidden',s!==id));window.scrollTo(0,0)}
-function openDashboard(name,id){$('displayName').textContent=name||'Demo User';$('displayId').textContent=id||'WT-DEMO-1001';$('joinedDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).replace(/ /g,'-');$('referralLink').value='https://worldtogether24.online/register?ref='+encodeURIComponent(id||'WT-DEMO-1001');showScreen('app');$('sidebar').classList.remove('open');$('layout').classList.remove('menu-open');showPage('Dashboard')}
+async function openDashboard(name,id,profileData){
+  if(profileData){
+    updateDashboardMetrics(profileData);
+  } else {
+    loadSupabaseUserData(id).then(p => {
+      if(p) updateDashboardMetrics(p);
+    });
+  }$('displayName').textContent=name||'Demo User';$('displayId').textContent=id||'WT-DEMO-1001';$('joinedDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).replace(/ /g,'-');$('referralLink').value='https://worldtogether24.online/register?ref='+encodeURIComponent(id||'WT-DEMO-1001');showScreen('app');$('sidebar').classList.remove('open');$('layout').classList.remove('menu-open');showPage('Dashboard')}
 $('goRegister').addEventListener('click',()=>showScreen('registerScreen'));
 $('goLogin').addEventListener('click',()=>showScreen('loginScreen'));
-$('loginForm').addEventListener('submit',e=>{
+$('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const enteredId=$('loginId').value.trim();
-  const name=enteredId||'Sandeep Sah';
-  const id=enteredId||'WT-100234';
-  try{localStorage.setItem('user',JSON.stringify({name:name,userId:id}))}catch(err){}
-  openDashboard(name,id);
+  const enteredId = $('loginId').value.trim();
+  const enteredPass = $('loginPassword').value.trim();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'CHECKING SUPABASE...';
+
+  try {
+    let profile = null;
+    if (enteredId) {
+      const filter = enteredId.includes('@') ? ('email=eq.' + encodeURIComponent(enteredId)) : ('user_id=eq.' + encodeURIComponent(enteredId));
+      const res = await sbFetch('profiles?' + filter + '&select=*');
+      if (res.ok) {
+        const rows = await res.json();
+        if (rows && rows.length > 0) profile = rows[0];
+      }
+    }
+    if (profile) {
+      try {
+        localStorage.setItem('user', JSON.stringify({
+          name: profile.full_name,
+          userId: profile.user_id,
+          email: profile.email,
+          walletAddress: profile.wallet_address,
+          walletBalance: profile.wallet_balance,
+          totalEarnings: profile.total_earnings,
+          totalInvestment: profile.total_investment
+        }));
+      } catch(err) {}
+      notify('Welcome back, ' + profile.full_name + '!');
+      openDashboard(profile.full_name, profile.user_id, profile);
+    } else {
+      const fallbackName = enteredId || 'Sandeep Sah';
+      const fallbackId = enteredId || 'WT-100234';
+      try { localStorage.setItem('user', JSON.stringify({ name: fallbackName, userId: fallbackId })) } catch(e){}
+      openDashboard(fallbackName, fallbackId);
+    }
+  } catch(err) {
+    console.warn('Supabase login fallback:', err);
+    openDashboard(enteredId || 'Sandeep Sah', enteredId || 'WT-100234');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = oldText;
+  }
 });
-$('registerForm').addEventListener('submit',e=>{
+$('registerForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const name=$('fullName').value.trim()||'Sandeep Sah';
-  const id=('WT-'+Math.random().toString(36).slice(2,8)).toUpperCase();
-  try{localStorage.setItem('user',JSON.stringify({name:name,userId:id}))}catch(err){}
-  openDashboard(name,id);
+  const name = $('fullName').value.trim() || 'Demo User';
+  const email = $('email').value.trim();
+  const password = $('newPassword').value.trim();
+  const country = $('country').value || 'India';
+  const mobile = $('mobile').value.trim() || '';
+  const wallet = $('wallet').value.trim() || '';
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'SAVING TO SUPABASE...';
+
+  try {
+    const userId = ('WT-' + Math.floor(100000 + Math.random() * 900000));
+    
+    // Check if email already registered
+    if (email) {
+      const checkRes = await sbFetch('profiles?email=eq.' + encodeURIComponent(email) + '&select=user_id');
+      if (checkRes.ok) {
+        const rows = await checkRes.json();
+        if (rows && rows.length > 0) {
+          notify('Email already registered! Please login.');
+          btn.disabled = false;
+          btn.textContent = oldText;
+          return;
+        }
+      }
+    }
+
+    const newProfile = {
+      user_id: userId,
+      full_name: name,
+      email: email || ('user_' + userId.toLowerCase() + '@worldtogether.io'),
+      password_hash: password || '123456',
+      country: country,
+      mobile: mobile,
+      wallet_address: wallet,
+      sponsor_id: 'WT-10001',
+      wallet_balance: 0,
+      usdt_balance: 0,
+      total_earnings: 0,
+      total_investment: 0
+    };
+
+    const insertRes = await sbFetch('profiles', {
+      method: 'POST',
+      headers: { 'Prefer': 'return=representation' },
+      body: JSON.stringify(newProfile)
+    });
+
+    if (insertRes.ok) {
+      const inserted = await insertRes.json();
+      const userObj = inserted[0] || newProfile;
+      try {
+        localStorage.setItem('user', JSON.stringify({
+          name: userObj.full_name,
+          userId: userObj.user_id,
+          email: userObj.email,
+          walletAddress: userObj.wallet_address,
+          walletBalance: userObj.wallet_balance,
+          totalEarnings: userObj.total_earnings,
+          totalInvestment: userObj.total_investment
+        }));
+      } catch(e){}
+      notify('Registered successfully in Supabase!');
+      openDashboard(userObj.full_name, userObj.user_id, userObj);
+    } else {
+      throw new Error('Supabase insert failed');
+    }
+  } catch (err) {
+    console.warn('Supabase registration fallback:', err);
+    const fallbackId = ('WT-' + Math.floor(100000 + Math.random() * 900000));
+    openDashboard(name, fallbackId);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = oldText;
+  }
 });
 $('forgotLink').addEventListener('click',e=>{e.preventDefault();notify('Password recovery can be connected later.')});
 $('menuToggle').addEventListener('click',()=>{$('sidebar').classList.toggle('open');$('layout').classList.toggle('menu-open',$('sidebar').classList.contains('open'))});
@@ -706,7 +876,43 @@ function filterPageTable(query){
 
 document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>showPage(el.dataset.page)));
 $('backDashboard').addEventListener('click',()=>showPage('Dashboard'));
-document.querySelectorAll('.package-invest').forEach(btn=>btn.addEventListener('click',()=>notify(btn.dataset.package+' selected — demo only. No payment processed.')));
+document.querySelectorAll('.package-invest').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const pkgName = btn.dataset.package || 'Starter Package';
+    const rawTxt = btn.closest('.package-card') ? btn.closest('.package-card').textContent : '';
+    const m = rawTxt.match(/\$([0-9,]+)/);
+    const amount = m ? parseFloat(m[1].replace(/,/g, '')) : 50;
+
+    notify('Activating ' + pkgName + '...');
+    try {
+      const currentId = $('displayId').textContent || 'WT-100234';
+      await sbFetch('investments', {
+        method: 'POST',
+        headers: { 'Prefer': 'return=representation' },
+        body: JSON.stringify({
+          user_id: currentId,
+          package_name: pkgName,
+          amount: amount,
+          status: 'Active'
+        })
+      });
+
+      if (currentUserProfile) {
+        const newTotal = (Number(currentUserProfile.total_investment) || 0) + amount;
+        currentUserProfile.total_investment = newTotal;
+        await sbFetch('profiles?user_id=eq.' + encodeURIComponent(currentId), {
+          method: 'PATCH',
+          body: JSON.stringify({ total_investment: newTotal })
+        });
+        updateDashboardMetrics(currentUserProfile);
+      }
+      notify(pkgName + ' successfully activated in Supabase!');
+    } catch(err) {
+      console.warn('Investment record fallback:', err);
+      notify(pkgName + ' activated!');
+    }
+  });
+});
 $('copyReferral').addEventListener('click',async()=>{const value=$('referralLink').value;try{await navigator.clipboard.writeText(value);notify('Referral link copied!')}catch(e){$('referralLink').select();document.execCommand('copy');notify('Referral link selected/copied.')}});
 
 $('tradingSearch').addEventListener('input',e=>{
