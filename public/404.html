@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Redirecting | World Together</title>
+    <title>Redirecting | Digital Finance</title>
     <script>
       (function() {
         var p = window.location.pathname;
@@ -13,7 +13,9 @@
         var prefix = isGh ? ('/' + m[1] + '/') : '/';
         var pLower = p.toLowerCase();
 
-        if (pLower.indexOf('/register') !== -1) {
+        if (pLower.indexOf('/admin') !== -1) {
+          window.location.replace(prefix + 'admin.html' + (search ? '?' + search.substring(1) : '') + hash);
+        } else if (pLower.indexOf('/register') !== -1) {
           window.location.replace(prefix + 'dashboard.html?mode=register' + (search ? '&' + search.substring(1) : '') + hash);
         } else if (pLower.indexOf('/login') !== -1) {
           window.location.replace(prefix + 'dashboard.html?mode=login' + (search ? '&' + search.substring(1) : '') + hash);
@@ -26,6 +28,6 @@
     </script>
   </head>
   <body style="background:#080f20;color:#e6bd37;font-family:sans-serif;text-align:center;padding:50px">
-    <h2>Redirecting to World Together...</h2>
+    <h2>Redirecting to Digital Finance...</h2>
   </body>
 </html>

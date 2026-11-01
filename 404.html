@@ -13,7 +13,9 @@
         var prefix = isGh ? ('/' + m[1] + '/') : '/';
         var pLower = p.toLowerCase();
 
-        if (pLower.indexOf('/register') !== -1) {
+        if (pLower.indexOf('/admin') !== -1) {
+          window.location.replace(prefix + 'admin.html' + (search ? '?' + search.substring(1) : '') + hash);
+        } else if (pLower.indexOf('/register') !== -1) {
           window.location.replace(prefix + 'dashboard.html?mode=register' + (search ? '&' + search.substring(1) : '') + hash);
         } else if (pLower.indexOf('/login') !== -1) {
           window.location.replace(prefix + 'dashboard.html?mode=login' + (search ? '&' + search.substring(1) : '') + hash);
