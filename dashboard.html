@@ -25,7 +25,7 @@ button,input,select{font:inherit}button{cursor:pointer}
 .brand{color:var(--gold);font-weight:900;font-size:clamp(19px,4vw,29px);letter-spacing:1.3px}
 .top-actions{display:flex;align-items:center;gap:20px}.logout{font-size:32px;color:var(--cyan);background:none;border:0}.menu-toggle{font-size:37px;line-height:1;color:var(--gold);background:none;border:0;padding:0 0 4px}
 .layout{display:flex;min-height:calc(100vh - 76px);position:relative}
-.sidebar{width:310px;flex-shrink:0;background:#141e34;color:var(--muted);padding:25px 14px 35px;position:fixed;top:76px;bottom:0;left:0;z-index:15;overflow:auto;transform:translateX(-105%);transition:transform .25s;box-shadow:8px 0 24px #0002}
+.sidebar{width:310px;flex-shrink:0;background:#141e34;color:var(--muted);padding:25px 14px 35px;position:fixed;top:76px;bottom:0;right:0;left:auto;z-index:25;overflow:auto;transform:translateX(105%);transition:transform .25s;box-shadow:-8px 0 24px rgba(0,0,0,0.5)}
 .sidebar.open{transform:translateX(0)}.side-heading{font-size:13px;font-weight:800;letter-spacing:2px;color:#7f8ba4;margin:10px 18px 18px}
 .menu-item{display:flex;align-items:center;gap:17px;padding:17px 16px;margin:4px 0;border-radius:28px;font-size:16px;font-weight:700;color:#aab4c7;border-left:5px solid transparent;cursor:pointer}
 .menu-item .ico{width:24px;text-align:center;font-size:22px}.menu-item.active{background:#272d33;color:var(--gold);border-left-color:var(--gold)}.menu-item:hover{background:#202b42}
@@ -46,8 +46,8 @@ button,input,select{font:inherit}button{cursor:pointer}
 .footer-note{text-align:center;color:#667087;font-size:12px;padding:8px 0 25px}
 .content-page{background:#fff;color:#172033;border-radius:18px;padding:25px;min-height:300px;box-shadow:0 8px 25px #0001}.content-page h2{color:#172033;margin-top:0}.content-page p{color:#5d6676;line-height:1.6}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111b2e;color:#fff;border:1px solid var(--gold);padding:12px 18px;border-radius:12px;z-index:40;box-shadow:0 8px 25px #0004}
-@media(min-width:850px){.sidebar.open{transform:translateX(0)}.main{max-width:1040px}.layout.menu-open .main{margin-left:310px;max-width:calc(100% - 310px)}}
-@media(max-width:600px){.topbar{height:70px;padding:0 16px}.top-actions{gap:16px}.brand{font-size:19px;letter-spacing:.7px}.logout{font-size:29px}.menu-toggle{font-size:34px}.sidebar{top:70px;width:min(310px,88vw)}.main{padding:20px 12px 40px}.profile-strip{padding:16px 12px;gap:8px;border-radius:17px}.small-label{font-size:10px}.profile-value{font-size:14px}.stats{gap:13px}.stat{min-height:132px;padding:20px 17px;border-radius:20px}.stat-title{font-size:13px}.stat-value{font-size:29px}.salary{padding:22px 18px;border-width:3px}.salary p{font-size:17px}.notice{font-size:16px;padding:18px}.section-title{padding:23px 21px}.referral-content{padding:22px 15px}.copy-btn{width:65px}.shortcut-grid{padding:25px 9px 30px;gap:24px 4px}.shortcut-icon{width:65px;height:65px;border-radius:23px;font-size:28px}.shortcut{font-size:12px;gap:10px}}
+@media(min-width:850px){.sidebar.open{transform:translateX(0)}.main{max-width:1040px}.layout.menu-open .main{margin-right:310px;margin-left:auto;max-width:calc(100% - 310px)}}
+@media(max-width:600px){.topbar{height:70px;padding:0 16px}.top-actions{gap:16px}.brand{font-size:19px;letter-spacing:.7px}.logout{font-size:29px}.menu-toggle{font-size:34px}.sidebar{top:70px;width:min(310px,88vw);right:0;left:auto}.main{padding:20px 12px 40px}.profile-strip{padding:16px 12px;gap:8px;border-radius:17px}.small-label{font-size:10px}.profile-value{font-size:14px}.stats{gap:13px}.stat{min-height:132px;padding:20px 17px;border-radius:20px}.stat-title{font-size:13px}.stat-value{font-size:29px}.salary{padding:22px 18px;border-width:3px}.salary p{font-size:17px}.notice{font-size:16px;padding:18px}.section-title{padding:23px 21px}.referral-content{padding:22px 15px}.copy-btn{width:65px}.shortcut-grid{padding:25px 9px 30px;gap:24px 4px}.shortcut-icon{width:65px;height:65px;border-radius:23px;font-size:28px}.shortcut{font-size:12px;gap:10px}}
 
 /* Investment packages section */
 .investment-section{margin:30px 0 28px;padding:28px 16px 30px;background:linear-gradient(180deg,#f4f9f8,#eef5f4);border-radius:20px;color:#172033}
@@ -186,7 +186,7 @@ button,input,select{font:inherit}button{cursor:pointer}
 <section id="loginScreen" class="auth-screen">
   <div class="auth-card">
     <div class="auth-banner" style="background:#091322;display:flex;align-items:center;gap:12px;padding:12px 20px">
-  <img src="./logo.jpg" alt="Logo" style="height:46px;width:auto;border-radius:8px;object-fit:contain">
+  <img src="./logo.png" alt="Logo" style="height:46px;width:auto;border-radius:8px;object-fit:contain">
   <div>
     <div style="font-weight:900;font-size:16px;color:#fff;letter-spacing:1.5px;line-height:1.2">DIGITAL FINANCE</div>
     <div style="font-size:10px;color:#e6bd37;letter-spacing:1px;font-weight:700">OFFICIAL PLATFORM</div>
@@ -195,10 +195,12 @@ button,input,select{font:inherit}button{cursor:pointer}
     <div class="auth-content">
       <h2>Sign Into Your Account</h2>
       <form id="loginForm">
-        <input id="loginId" placeholder="USER ID (Optional)" autocomplete="username">
-        <input id="loginPassword" type="password" placeholder="USER PASSWORD (Optional)" autocomplete="current-password">
+        <input id="loginId" value="DF-100234" placeholder="USER ID" autocomplete="username">
+        <input id="loginPassword" type="password" value="admin123" placeholder="USER PASSWORD" autocomplete="current-password">
         <div class="auth-row"><label><input type="checkbox"> Remember me</label><a class="link" href="#" id="forgotLink">Forgot Password?</a></div>
         <button class="primary" type="submit">LOGIN NOW</button>
+        <button type="button" id="quickDemoLoginBtn" style="width:100%;margin-top:10px;background:linear-gradient(100deg,#e2b831,#fff0a2);color:#0a0f1d;font-weight:900;border:none;border-radius:7px;padding:12px;font-size:12px;cursor:pointer;letter-spacing:0.5px;box-shadow:0 4px 12px rgba(226,184,49,0.3)">⚡ ONE-CLICK DEMO LOGIN (DF-100234)</button>
+        <div style="margin-top:10px;text-align:center;font-size:11px;color:#aab3c5">Default Demo ID: <b style="color:#e6bd37">DF-100234</b> | Pass: <b style="color:#e6bd37">admin123</b></div>
       </form><p style="text-align:center;margin:12px 0 0"><a class="link" href="./" style="color:#7f8ba4;text-decoration:none;font-size:12px">← Back to Website</a></p>
       <p class="auth-foot">Don't have an account? <a class="link" id="goRegister">Register here</a></p>
     </div>
@@ -208,7 +210,7 @@ button,input,select{font:inherit}button{cursor:pointer}
 <section id="registerScreen" class="auth-screen hidden">
   <div class="auth-card">
     <div class="auth-banner" style="background:#091322;display:flex;align-items:center;gap:12px;padding:12px 20px">
-  <img src="./logo.jpg" alt="Logo" style="height:46px;width:auto;border-radius:8px;object-fit:contain">
+  <img src="./logo.png" alt="Logo" style="height:46px;width:auto;border-radius:8px;object-fit:contain">
   <div>
     <div style="font-weight:900;font-size:16px;color:#fff;letter-spacing:1.5px;line-height:1.2">DIGITAL FINANCE</div>
     <div style="font-size:10px;color:#e6bd37;letter-spacing:1px;font-weight:700">OFFICIAL PLATFORM</div>
@@ -236,7 +238,7 @@ button,input,select{font:inherit}button{cursor:pointer}
 <section id="app" class="hidden">
   <header class="topbar">
     <div class="brand" style="display:flex;align-items:center;gap:10px">
-    <img src="./logo.jpg" alt="Logo" style="height:40px;width:auto;border-radius:8px;object-fit:contain;box-shadow:0 0 10px rgba(230,189,55,0.3)">
+    <img src="./logo.png" alt="Logo" style="height:40px;width:auto;border-radius:8px;object-fit:contain;box-shadow:0 0 10px rgba(230,189,55,0.3)">
     <span style="font-weight:900;letter-spacing:1.5px;color:var(--gold)">DIGITAL FINANCE</span>
   </div>
     <div id="supabaseIndicator" style="display:inline-flex;align-items:center;gap:6px;background:rgba(25,220,160,0.12);border:1px solid rgba(25,220,160,0.3);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;color:#19dca0">
@@ -666,6 +668,22 @@ $('registerForm').addEventListener('submit', async e => {
 });
 $('forgotLink').addEventListener('click',e=>{e.preventDefault();notify('Password recovery can be connected later.')});
 $('menuToggle').addEventListener('click',()=>{$('sidebar').classList.toggle('open');$('layout').classList.toggle('menu-open',$('sidebar').classList.contains('open'))});
+// Close sidebar when clicking outside or clicking any menu item
+document.addEventListener('click', (e) => {
+  if ($('sidebar').classList.contains('open') && !$('sidebar').contains(e.target) && !$('menuToggle').contains(e.target)) {
+    $('sidebar').classList.remove('open');
+    $('layout').classList.remove('menu-open');
+  }
+});
+const quickBtn = $('quickDemoLoginBtn');
+if (quickBtn) {
+  quickBtn.addEventListener('click', () => {
+    $('loginId').value = 'DF-100234';
+    $('loginPassword').value = 'admin123';
+    openDashboard('Sandeep Sah', 'DF-100234');
+    notify('Logged in as Sandeep Sah (DF-100234)!');
+  });
+}
 $('logoutBtn').addEventListener('click',()=>showScreen('loginScreen'));
 
 const demoRows = {
@@ -815,7 +833,7 @@ function renderPage(page){
             USDT (BEP-20) Wallet Address
           </div>
           <div style="background:#fff;padding:12px;border-radius:18px;display:inline-block;border:3px solid #f0c94d;box-shadow:0 0 24px rgba(240,201,77,0.25);margin-bottom:18px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=0x6b1C8E3fe3D439eF969412aa7493d2E5d276F9E6" alt="USDT BEP-20 QR Code" style="width:180px;height:180px;display:block;border-radius:4px">
+            <img src="./deposit_qr.png" alt="USDT BEP-20 QR Code" style="width:180px;height:180px;display:block;border-radius:4px">
           </div>
           <div id="depositAddressText" style="background:#040812;border:1px solid #23314d;border-radius:8px;padding:13px 12px;color:#cbd5e1;font-family:monospace;font-size:clamp(11px,2.7vw,13px);word-break:break-all;margin-bottom:18px;user-select:all">
             0x6b1C8E3fe3D439eF969412aa7493d2E5d276F9E6
