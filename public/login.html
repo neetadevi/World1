@@ -291,37 +291,7 @@ button,input,select{font:inherit}button{cursor:pointer}
           <div class="stat"><div class="stat-title">AUTO COMPOUND ACTIVE</div><div class="stat-value" id="statAutoCompound">$0.00</div></div>
           <div class="stat"><div class="stat-title">HIGHEST ACTIVE PKG</div><div class="stat-value" id="statHighestPkg">$0.00</div></div>
         </div>
-        <section class="salary">
-          <h2>MONTHLY SALARY</h2>
-          <p>Earn $100 per month for 6 months! ($600 Total)</p>
-          <strong>Self Topup $50+</strong>
-          <div class="level"><div class="level-row"><span>Level 1 ($50+ Users)</span><b>0 / 3</b></div><div class="progress"><span></span></div></div>
-          <div class="level"><div class="level-row"><span>Level 2 ($50+ Users)</span><b>0 / 6</b></div><div class="progress"><span></span></div></div>
-          <div class="notice">ⓘ &nbsp; Please Top-up to start the Monthly Salary!</div>
         
-        <!-- DIRECT TEAM MEMBERS (Below Monthly Salary) -->
-        <section class="page-card" style="margin-bottom:28px;background:#131927;border:1px solid #23314d;border-radius:18px;padding:22px" id="directTeamSection">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-            <h3 style="margin:0;color:#eab308;font-size:18px;font-weight:900">MY DIRECT TEAM</h3>
-            <span style="font-size:12px;color:#94a3b8">Registered Under This ID</span>
-          </div>
-          <div class="page-table-wrap">
-            <table class="page-table">
-              <thead>
-                <tr>
-                  <th>USER ID</th>
-                  <th>NAME</th>
-                  <th>JOIN DATE</th>
-                  <th>BUSINESS</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody id="directTeamTableBody">
-                <tr><td colspan="5" style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">No members registered yet under this ID. Share your referral link above to invite members!</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
 
 </section>
         <section class="referral">
@@ -432,6 +402,39 @@ button,input,select{font:inherit}button{cursor:pointer}
 
 
         <!-- Screenshot section: investment totals and recent deposits -->
+        
+
+        <!-- Screenshot section: active packages -->
+        <section class="screenshot-panel" aria-label="My packages">
+          <h2 style="font-size:clamp(25px,4vw,34px);margin:13px 7px 17px">MY PACKAGES</h2>
+          <div class="small-label" style="font-size:13px;margin:0 7px 12px">DIGITAL FINANCE</div>
+          <div class="packages-empty">NO ACTIVE PACKAGES FOUND</div>
+        </section>
+
+        <!-- Screenshot section: AI trading status -->
+        <section class="screenshot-panel trading-panel" aria-label="AI trading status">
+          <h2 class="trading-title">ϟ AI Trading Status</h2>
+          <div class="trading-time">2026-10-29T09:19:05.496Z</div>
+          <input id="tradingSearch" class="table-search" type="search" placeholder="⌕  Search Pair..." aria-label="Search trading pair">
+          <div class="table-scroll">
+            <table class="demo-table trading-table" id="tradingTable">
+              <thead><tr><th>PAIR</th><th>SIDE</th><th>ENTRY</th><th>LATEST</th><th>PNL</th></tr></thead>
+              <tbody>
+                <tr><td>SHIB/USDT</td><td class="long">Long 5X</td><td>0.000005</td><td>0.000005</td><td class="loss">-2.04%</td></tr>
+                <tr><td>DODGE/USDT</td><td class="long">Long 15X</td><td>6.364200</td><td>21.669000</td><td class="profit">+3607.24%</td></tr>
+                <tr><td>TRX/USDT</td><td class="short">Short 20X</td><td>0.327500</td><td>0.331500</td><td class="loss">-24.43%</td></tr>
+                <tr><td>LINK/USDT</td><td class="long">Long 15X</td><td>8.198000</td><td>11.515000</td><td class="profit">+606.92%</td></tr>
+                <tr><td>ADA/USDT</td><td class="short">Short 10X</td><td>0.194100</td><td>0.199900</td><td class="loss">-29.88%</td></tr>
+                <tr><td>UNI/USDT</td><td class="long">Long 5X</td><td>3.957000</td><td>7.052000</td><td class="profit">+391.08%</td></tr>
+                <tr><td>FIL/USDT</td><td class="long">Long 15X</td><td>0.715000</td><td>0.894100</td><td class="profit">+375.73%</td></tr>
+                <tr><td>BTC/USDT</td><td class="long">Long 15X</td><td>64230.010000</td><td>80236.750000</td><td class="profit">+373.81%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-note">Illustrative trading rows only. No exchange connection, live prices, trading execution, or verified profit/loss data is included.</p>
+        </section>
+
+        
         <section class="screenshot-panel summary-panel" aria-label="Investment summary">
           <div class="summary-tile total">
             <div class="summary-label">TOTAL INVESTMENT</div>
@@ -464,37 +467,40 @@ button,input,select{font:inherit}button{cursor:pointer}
           <p class="panel-note">Demo/sample figures shown to match the supplied reference screenshot. They are not live investment or transaction records.</p>
         </section>
 
-        <!-- Screenshot section: active packages -->
-        <section class="screenshot-panel" aria-label="My packages">
-          <h2 style="font-size:clamp(25px,4vw,34px);margin:13px 7px 17px">MY PACKAGES</h2>
-          <div class="small-label" style="font-size:13px;margin:0 7px 12px">DIGITAL FINANCE</div>
-          <div class="packages-empty">NO ACTIVE PACKAGES FOUND</div>
-        </section>
-
-        <!-- Screenshot section: AI trading status -->
-        <section class="screenshot-panel trading-panel" aria-label="AI trading status">
-          <h2 class="trading-title">ϟ AI Trading Status</h2>
-          <div class="trading-time">2026-10-29T09:19:05.496Z</div>
-          <input id="tradingSearch" class="table-search" type="search" placeholder="⌕  Search Pair..." aria-label="Search trading pair">
-          <div class="table-scroll">
-            <table class="demo-table trading-table" id="tradingTable">
-              <thead><tr><th>PAIR</th><th>SIDE</th><th>ENTRY</th><th>LATEST</th><th>PNL</th></tr></thead>
-              <tbody>
-                <tr><td>SHIB/USDT</td><td class="long">Long 5X</td><td>0.000005</td><td>0.000005</td><td class="loss">-2.04%</td></tr>
-                <tr><td>DODGE/USDT</td><td class="long">Long 15X</td><td>6.364200</td><td>21.669000</td><td class="profit">+3607.24%</td></tr>
-                <tr><td>TRX/USDT</td><td class="short">Short 20X</td><td>0.327500</td><td>0.331500</td><td class="loss">-24.43%</td></tr>
-                <tr><td>LINK/USDT</td><td class="long">Long 15X</td><td>8.198000</td><td>11.515000</td><td class="profit">+606.92%</td></tr>
-                <tr><td>ADA/USDT</td><td class="short">Short 10X</td><td>0.194100</td><td>0.199900</td><td class="loss">-29.88%</td></tr>
-                <tr><td>UNI/USDT</td><td class="long">Long 5X</td><td>3.957000</td><td>7.052000</td><td class="profit">+391.08%</td></tr>
-                <tr><td>FIL/USDT</td><td class="long">Long 15X</td><td>0.715000</td><td>0.894100</td><td class="profit">+375.73%</td></tr>
-                <tr><td>BTC/USDT</td><td class="long">Long 15X</td><td>64230.010000</td><td>80236.750000</td><td class="profit">+373.81%</td></tr>
+        <section class="salary">
+          <h2>MONTHLY SALARY</h2>
+          <p>Earn $100 per month for 6 months! ($600 Total)</p>
+          <strong>Self Topup $50+</strong>
+          <div class="level"><div class="level-row"><span>Level 1 ($50+ Users)</span><b>0 / 3</b></div><div class="progress"><span></span></div></div>
+          <div class="level"><div class="level-row"><span>Level 2 ($50+ Users)</span><b>0 / 6</b></div><div class="progress"><span></span></div></div>
+          <div class="notice">ⓘ &nbsp; Please Top-up to start the Monthly Salary!</div>
+        
+        <!-- DIRECT TEAM MEMBERS (Below Monthly Salary) -->
+        <section class="page-card" style="margin-bottom:28px;background:#131927;border:1px solid #23314d;border-radius:18px;padding:22px" id="directTeamSection">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <h3 style="margin:0;color:#eab308;font-size:18px;font-weight:900">MY DIRECT TEAM</h3>
+            <span style="font-size:12px;color:#94a3b8">Registered Under This ID</span>
+          </div>
+          <div class="page-table-wrap">
+            <table class="page-table">
+              <thead>
+                <tr>
+                  <th>USER ID</th>
+                  <th>NAME</th>
+                  <th>JOIN DATE</th>
+                  <th>BUSINESS</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="directTeamTableBody">
+                <tr><td colspan="5" style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">No members registered yet under this ID. Share your referral link above to invite members!</td></tr>
               </tbody>
             </table>
           </div>
-          <p class="panel-note">Illustrative trading rows only. No exchange connection, live prices, trading execution, or verified profit/loss data is included.</p>
         </section>
+        
 
-        <div class="footer-note">Digital Finance • Demo dashboard UI</div>
+        <div class="footer-note">Digital Finance • Official Staking & Investment Platform</div>
       </div>
       <div id="otherPage" class="content-page hidden"><div id="pageContent"></div><button class="page-action secondary" id="backDashboard" style="margin-top:20px">← BACK TO DASHBOARD</button></div>
     </main>
