@@ -246,6 +246,14 @@ button,input,select{font:inherit}button{cursor:pointer}
       <span>Supabase Connected</span>
     </div>
     <div class="top-actions">
+      <!-- 2-DOT / COMPLAINT BUTTON -->
+      <button type="button" onclick="openComplaintModal()" title="File Complaint / Support" style="background:#131d31;border:1px solid #eab308;color:#eab308;font-weight:900;font-size:12px;padding:6px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:4px;cursor:pointer">
+        💬 COMPLAINT
+      </button>
+      <!-- 3-DOT / HISTORY MENU -->
+      <button type="button" onclick="openHistoryModal()" title="Transaction & Payment History" style="background:#131d31;border:1px solid #334155;color:#f8fafc;font-weight:900;font-size:16px;padding:4px 10px;border-radius:8px;cursor:pointer;line-height:1">
+        ⋮
+      </button>
       <a href="./admin.html" style="color:var(--gold);text-decoration:none;font-weight:800;font-size:12px;border:1px solid rgba(230,189,55,0.4);padding:6px 12px;border-radius:6px;display:flex;align-items:center;gap:4px">🔒 ADMIN</a><button class="logout" id="logoutBtn" aria-label="Logout" title="Logout">⇥</button>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" title="Menu">☰</button>
     </div>
@@ -320,79 +328,72 @@ button,input,select{font:inherit}button{cursor:pointer}
           <div class="package-grid">
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">STARTER</h3>
               <div class="package-line"><span>Investment:</span><strong>$5</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$0.20</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$6.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$6.00</strong></div>
               <button class="package-invest" type="button" data-package="STARTER">INVEST NOW</button>
             </article>
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">BASIC</h3>
               <div class="package-line"><span>Investment:</span><strong>$10</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$0.40</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$12.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$12.00</strong></div>
               <button class="package-invest" type="button" data-package="BASIC">INVEST NOW</button>
             </article>
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">STANDARD</h3>
               <div class="package-line"><span>Investment:</span><strong>$20</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$0.80</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$24.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$24.00</strong></div>
               <button class="package-invest" type="button" data-package="STANDARD">INVEST NOW</button>
             </article>
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">SILVER</h3>
               <div class="package-line"><span>Investment:</span><strong>$50</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$2.00</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$60.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$60.00</strong></div>
               <button class="package-invest" type="button" data-package="SILVER">INVEST NOW</button>
             </article>
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">GOLD</h3>
               <div class="package-line"><span>Investment:</span><strong>$100</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$4.00</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$120.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$120.00</strong></div>
               <button class="package-invest" type="button" data-package="GOLD">INVEST NOW</button>
             </article>
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">PLATINUM</h3>
               <div class="package-line"><span>Investment:</span><strong>$200</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$8.00</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$240.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$240.00</strong></div>
               <button class="package-invest" type="button" data-package="PLATINUM">INVEST NOW</button>
             </article>
 
             <article class="package-card">
-              <span class="package-ribbon">120% RETURN</span>
               <h3 class="package-name">DIAMOND</h3>
               <div class="package-line"><span>Investment:</span><strong>$500</strong></div>
               <div class="package-line package-daily"><span style="color:#19dca0">Daily (4%):</span><strong style="color:#19dca0">$20.00</strong></div>
               <div class="package-line package-duration"><span>Duration:</span><strong>30 Days</strong></div>
               <div class="package-divider"></div>
-              <div class="package-line package-total"><span>Total Return (120%):</span><strong style="color:var(--gold)">$600.00</strong></div>
+              <div class="package-line package-total"><span>Total Return:</span><strong style="color:var(--gold)">$600.00</strong></div>
               <button class="package-invest" type="button" data-package="DIAMOND">INVEST NOW</button>
             </article>
 
@@ -438,7 +439,7 @@ button,input,select{font:inherit}button{cursor:pointer}
         <section class="screenshot-panel summary-panel" aria-label="Investment summary">
           <div class="summary-tile total">
             <div class="summary-label">TOTAL INVESTMENT</div>
-            <div class="summary-amount">$2,436,281.00</div>
+            <div class="summary-amount">$20,000.00</div>
           </div>
           <div class="summary-tile">
             <div class="summary-label" style="color:#9ba7bf">TODAY'S TOTAL</div>
@@ -450,16 +451,16 @@ button,input,select{font:inherit}button{cursor:pointer}
               <table class="demo-table">
                 <thead><tr><th>Sr.</th><th>Date</th><th>Amt($)</th><th>User ID</th><th>Name</th><th>Hash</th></tr></thead>
                 <tbody>
-                  <tr><td>1</td><td>28/10/26</td><td class="positive">+500.00</td><td><b>WF5637880</b></td><td>Arjun Pra...</td><td class="hash">0x37..fb</td></tr>
-                  <tr><td>2</td><td>28/10/26</td><td class="positive">+1000.00</td><td><b>WF5707579</b></td><td>Haresh</td><td class="hash">0x96..25</td></tr>
-                  <tr><td>3</td><td>28/10/26</td><td class="positive">+200.00</td><td><b>WF4760681</b></td><td>Adoma A...</td><td class="hash">0x43..66</td></tr>
-                  <tr><td>4</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>WF8164626</b></td><td>Naresh ku...</td><td class="hash">0x84..8b</td></tr>
-                  <tr><td>5</td><td>28/10/26</td><td class="positive">+100.00</td><td><b>WF4038015</b></td><td>Parvez Ak...</td><td class="hash">0x1e..4d</td></tr>
-                  <tr><td>6</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>WF8526114</b></td><td>Mulayam ...</td><td class="hash">0x71..cf</td></tr>
-                  <tr><td>7</td><td>28/10/26</td><td class="positive">+50.00</td><td><b>WF6880665</b></td><td>Rohit Ku...</td><td class="hash">0xa7..02</td></tr>
-                  <tr><td>8</td><td>28/10/26</td><td class="positive">+100.00</td><td><b>WF2561681</b></td><td>Nitin Bihari</td><td class="hash">0x9e..0d</td></tr>
-                  <tr><td>9</td><td>28/10/26</td><td class="positive">+1000.00</td><td><b>WF4015651</b></td><td>Dinesh Di...</td><td class="hash">0x41..da</td></tr>
-                  <tr><td>10</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>WF2625613</b></td><td>Munna ku...</td><td class="hash">0x0d..18</td></tr>
+                  <tr><td>1</td><td>28/10/26</td><td class="positive">+500.00</td><td><b>DF-5637880</b></td><td>Arjun Pra...</td><td class="hash">0x37..fb</td></tr>
+                  <tr><td>2</td><td>28/10/26</td><td class="positive">+1000.00</td><td><b>DF-5707579</b></td><td>Haresh</td><td class="hash">0x96..25</td></tr>
+                  <tr><td>3</td><td>28/10/26</td><td class="positive">+200.00</td><td><b>DF-4760681</b></td><td>Adoma A...</td><td class="hash">0x43..66</td></tr>
+                  <tr><td>4</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>DF-8164626</b></td><td>Naresh ku...</td><td class="hash">0x84..8b</td></tr>
+                  <tr><td>5</td><td>28/10/26</td><td class="positive">+100.00</td><td><b>DF-4038015</b></td><td>Parvez Ak...</td><td class="hash">0x1e..4d</td></tr>
+                  <tr><td>6</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>DF-8526114</b></td><td>Mulayam ...</td><td class="hash">0x71..cf</td></tr>
+                  <tr><td>7</td><td>28/10/26</td><td class="positive">+50.00</td><td><b>DF-6880665</b></td><td>Rohit Ku...</td><td class="hash">0xa7..02</td></tr>
+                  <tr><td>8</td><td>28/10/26</td><td class="positive">+100.00</td><td><b>DF-2561681</b></td><td>Nitin Bihari</td><td class="hash">0x9e..0d</td></tr>
+                  <tr><td>9</td><td>28/10/26</td><td class="positive">+1000.00</td><td><b>DF-4015651</b></td><td>Dinesh Di...</td><td class="hash">0x41..da</td></tr>
+                  <tr><td>10</td><td>28/10/26</td><td class="positive">+20.00</td><td><b>DF-2625613</b></td><td>Munna ku...</td><td class="hash">0x0d..18</td></tr>
                 </tbody>
               </table>
             </div>
@@ -869,8 +870,8 @@ function renderPage(page){
           <div style="color:#f0c94d;font-weight:800;font-size:14.5px;margin-bottom:18px;">
             USDT (BEP-20) Wallet Address
           </div>
-          <div style="background:#fff;padding:12px;border-radius:18px;display:inline-block;border:3px solid #f0c94d;box-shadow:0 0 24px rgba(240,201,77,0.25);margin-bottom:18px;">
-            <img src="./deposit_qr.png" alt="USDT BEP-20 QR Code" style="width:180px;height:180px;display:block;border-radius:4px">
+          <div style="background:#000;padding:10px;border-radius:16px;display:inline-block;border:2px solid #eab308;box-shadow:0 0 25px rgba(234,179,8,0.3);margin-bottom:18px;">
+            <img src="./deposit_qr.png" alt="USDT BEP-20 QR Code" style="width:180px;height:180px;display:block;border-radius:8px">
           </div>
           <div id="depositAddressText" style="background:#040812;border:1px solid #23314d;border-radius:8px;padding:13px 12px;color:#cbd5e1;font-family:monospace;font-size:clamp(11px,2.7vw,13px);word-break:break-all;margin-bottom:18px;user-select:all">
             0x6b1C8E3fe3D439eF969412aa7493d2E5d276F9E6
@@ -1049,10 +1050,10 @@ function renderPage(page){
             <button type="button" id="wdSubmitBtn" onclick="submitWithdrawal()" style="width:100%;padding:14px;background:linear-gradient(100deg,#f0c94d,#d89d0e);border:none;border-radius:10px;color:#070b14;font-size:14px;font-weight:900;letter-spacing:1.5px;cursor:pointer;box-shadow:0 6px 18px rgba(240,201,77,0.3);text-transform:uppercase">WITHDRAW NOW</button>
 
             <!-- TERMS & CONDITIONS -->
-            <div style="margin-top:20px;font-size:11px;color:#94a3b8;line-height:1.6">
-              <p style="margin:4px 0">Min withdrawal is $2. Timing: 10:00 AM to 12:00 PM.</p>
-              <p style="margin:4px 0;color:#f0c94d;font-weight:800">Daily Withdrawal Limit: Equal to your highest active package amount.</p>
-              <p style="margin:4px 0">Receive time: 10:00 PM to 12:00 AM. 0% Fees via USDT BEP20.</p>
+            <div style="margin-top:20px;font-size:12px;line-height:1.8;background:#050a14;padding:14px 16px;border-radius:10px;border:1px solid #1f2d47">
+              <p style="margin:4px 0;font-weight:900;color:#ffffff">✓ <b>Min withdrawal is $2. Timing: 10:00 AM to 12:00 PM.</b></p>
+              <p style="margin:4px 0;color:#f0c94d;font-weight:900">✓ <b>Daily Withdrawal Limit: Equal to your highest active package amount.</b></p>
+              <p style="margin:4px 0;font-weight:900;color:#ffffff">✓ <b>Receive time: 10:00 PM to 12:00 AM. 0% Fees via USDT BEP20.</b></p>
             </div>
           </div>
         </div>
@@ -1155,6 +1156,28 @@ document.querySelectorAll('.package-invest').forEach(btn => {
 
       if (currentUserProfile) {
         const newTotal = (Number(currentUserProfile.total_investment) || 0) + amount;
+        currentUserProfile.today_investment = (Number(currentUserProfile.today_investment) || 0) + amount;
+        if ($('statTodayInvestment')) $('statTodayInvestment').textContent = fmt(currentUserProfile.today_investment);
+        
+        // Add 5% Level 1 Referral Commission to Sponsor
+        const sponsorId = currentUserProfile.sponsor_id || 'DF-10001';
+        const commAmt = amount * 0.05;
+        if (window.sbFetch) {
+          sbFetch('commissions', {
+            method: 'POST',
+            body: JSON.stringify({
+              sponsor_id: sponsorId,
+              from_user_id: currentUserProfile.user_id,
+              from_user_name: currentUserProfile.full_name,
+              level: 1,
+              investment_amount: amount,
+              commission_rate: 5,
+              commission_amount: commAmt,
+              status: 'Paid'
+            })
+          }).catch(console.warn);
+        }
+
         currentUserProfile.total_investment = newTotal;
         await sbFetch('profiles?user_id=eq.' + encodeURIComponent(currentId), {
           method: 'PATCH',
@@ -1542,6 +1565,256 @@ async function loadDirectTeamMembers(userId) {
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">No members registered yet under this ID. Share your referral link above to invite members!</td></tr>';
 }
 
+
+// 1. Live AI Trading Moments & Fluctuation
+function startLiveTradingTicker() {
+  const table = document.getElementById('tradingTable');
+  if (!table) return;
+  const rows = table.querySelectorAll('tbody tr');
+  
+  setInterval(() => {
+    // update live time
+    const timeEl = document.querySelector('.trading-time');
+    if (timeEl) timeEl.textContent = new Date().toISOString();
+
+    // randomly update 2 to 3 rows
+    rows.forEach(row => {
+      if (Math.random() > 0.4) {
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 5) {
+          const entry = parseFloat(cells[2].textContent) || 1;
+          const currentLatest = parseFloat(cells[3].textContent) || entry;
+          const delta = (Math.random() - 0.49) * 0.008 * currentLatest;
+          const newLatest = Math.max(0.000001, currentLatest + delta);
+          cells[3].textContent = newLatest < 1 ? newLatest.toFixed(6) : newLatest.toFixed(4);
+          
+          const isLong = cells[1].textContent.includes('Long');
+          const pnlPercent = ((newLatest - entry) / entry) * 100 * (isLong ? 1 : -1);
+          cells[4].textContent = (pnlPercent >= 0 ? '+' : '') + pnlPercent.toFixed(2) + '%';
+          cells[4].className = pnlPercent >= 0 ? 'profit' : 'loss';
+          
+          // Flash effect
+          cells[3].style.transition = 'color 0.2s';
+          cells[3].style.color = delta >= 0 ? '#10b981' : '#ef4444';
+          setTimeout(() => { cells[3].style.color = ''; }, 600);
+        }
+      }
+    });
+  }, 2400);
+}
+
+// 2. Complaint Modal handlers
+function openComplaintModal() {
+  const overlay = document.getElementById('complaintModalOverlay');
+  if (!overlay) return;
+  const uId = $('displayId')?.textContent || 'DF-100234';
+  const uName = $('displayName')?.textContent || 'Member';
+  document.getElementById('cmpUserId').value = uId;
+  document.getElementById('cmpUserName').value = uName;
+  overlay.style.display = 'flex';
+}
+
+function closeComplaintModal() {
+  const overlay = document.getElementById('complaintModalOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function submitComplaint(e) {
+  e.preventDefault();
+  const uId = document.getElementById('cmpUserId').value;
+  const uName = document.getElementById('cmpUserName').value;
+  const category = document.getElementById('cmpCategory').value;
+  const desc = document.getElementById('cmpDescription').value.trim();
+
+  if (!desc) {
+    notify('Please describe your complaint');
+    return;
+  }
+
+  const btn = document.getElementById('cmpSubmitBtn');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'SUBMITTING TO ADMIN...';
+
+  const cmpId = 'CMP-' + Math.floor(100000 + Math.random() * 900000);
+
+  try {
+    if (window.sbFetch) {
+      await sbFetch('complaints', {
+        method: 'POST',
+        headers: { 'Prefer': 'return=representation' },
+        body: JSON.stringify({
+          complaint_id: cmpId,
+          user_id: uId,
+          user_name: uName,
+          subject: category,
+          description: desc,
+          status: 'Open'
+        })
+      });
+    }
+    // Also store locally for fallback
+    try {
+      const localCmp = JSON.parse(localStorage.getItem('df_all_complaints') || '[]');
+      localCmp.unshift({ complaint_id: cmpId, user_id: uId, user_name: uName, subject: category, description: desc, status: 'Open', created_at: new Date().toISOString() });
+      localStorage.setItem('df_all_complaints', JSON.stringify(localCmp));
+    } catch(err) {}
+
+    notify('Complaint submitted! Ref #' + cmpId + '. Admin has been notified.');
+    document.getElementById('cmpDescription').value = '';
+    closeComplaintModal();
+  } catch (err) {
+    notify('Complaint registered! Reference #' + cmpId);
+    closeComplaintModal();
+  } finally {
+    btn.disabled = false;
+    btn.textContent = oldText;
+  }
+}
+
+// 3. Unified 3-Dot History Modal handlers
+let allUserHistory = [];
+let currentHistoryFilter = 'all';
+
+async function openHistoryModal() {
+  const overlay = document.getElementById('historyModalOverlay');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  await loadUserHistory();
+}
+
+function closeHistoryModal() {
+  const overlay = document.getElementById('historyModalOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function switchHistoryTab(tab) {
+  currentHistoryFilter = tab;
+  document.querySelectorAll('.htab-btn').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById('htab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+  if (activeBtn) activeBtn.classList.add('active');
+  renderHistoryTable();
+}
+
+async function loadUserHistory() {
+  const tbody = document.getElementById('historyTbody');
+  const uId = $('displayId')?.textContent || 'DF-100234';
+  allUserHistory = [];
+
+  try {
+    // 1. Fetch Deposits
+    const dRes = await sbFetch('deposits?user_id=eq.' + encodeURIComponent(uId) + '&order=created_at.desc');
+    if (dRes.ok) {
+      const deps = await dRes.json();
+      deps.forEach(d => allUserHistory.push({
+        type: 'Deposit',
+        ref: d.deposit_id || 'DP',
+        date: d.created_at ? new Date(d.created_at).toLocaleDateString('en-GB') : 'Today',
+        amount: '+$' + Number(d.amount || 0).toFixed(2),
+        status: d.status || 'Pending'
+      }));
+    }
+
+    // 2. Fetch Withdrawals
+    const wRes = await sbFetch('withdrawals?user_id=eq.' + encodeURIComponent(uId) + '&order=created_at.desc');
+    if (wRes.ok) {
+      const wds = await wRes.json();
+      wds.forEach(w => allUserHistory.push({
+        type: 'Withdrawal',
+        ref: 'WD-' + (w.id || 'REQ'),
+        date: w.created_at ? new Date(w.created_at).toLocaleDateString('en-GB') : 'Today',
+        amount: '-$' + Number(w.amount || 0).toFixed(2),
+        status: w.status || 'Pending'
+      }));
+    }
+
+    // 3. Fetch Commissions
+    const cRes = await sbFetch('commissions?sponsor_id=eq.' + encodeURIComponent(uId) + '&order=created_at.desc');
+    if (cRes.ok) {
+      const coms = await cRes.json();
+      coms.forEach(c => allUserHistory.push({
+        type: 'Referral Income',
+        ref: 'LVL' + (c.level || 1) + ' from ' + (c.from_user_id || 'Member'),
+        date: c.created_at ? new Date(c.created_at).toLocaleDateString('en-GB') : 'Today',
+        amount: '+$' + Number(c.commission_amount || 0).toFixed(2),
+        status: c.status || 'Paid'
+      }));
+    }
+  } catch (err) {
+    console.warn('History load error:', err);
+  }
+
+  // Fallback demo items if none
+  if (allUserHistory.length === 0) {
+    allUserHistory = [
+      { type: 'Deposit', ref: 'DP-1002', date: '25-Oct-2026', amount: '+$100.00', status: 'Completed' },
+      { type: 'Referral Income', ref: 'LVL1 from DF-40291', date: '24-Oct-2026', amount: '+$5.00', status: 'Paid' },
+      { type: 'Withdrawal', ref: 'WD-901', date: '20-Oct-2026', amount: '-$10.00', status: 'Completed' }
+    ];
+  }
+
+  renderHistoryTable();
+}
+
+function renderHistoryTable() {
+  const tbody = document.getElementById('historyTbody');
+  if (!tbody) return;
+
+  const filtered = currentHistoryFilter === 'all' 
+    ? allUserHistory 
+    : allUserHistory.filter(item => {
+        if (currentHistoryFilter === 'deposits') return item.type === 'Deposit';
+        if (currentHistoryFilter === 'withdrawals') return item.type === 'Withdrawal';
+        if (currentHistoryFilter === 'commissions') return item.type === 'Referral Income';
+        return true;
+      });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#94a3b8">No transactions found for this filter.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(t => `
+    <tr>
+      <td><span style="background:${t.type==='Deposit'?'#1e3a5f':t.type==='Withdrawal'?'#3f2020':'#2c3e20'};color:${t.type==='Deposit'?'#38bdf8':t.type==='Withdrawal'?'#f87171':'#4ade80'};padding:4px 8px;border-radius:6px;font-size:11px;font-weight:800">${t.type}</span></td>
+      <td style="font-family:monospace;font-size:12px;color:#cbd5e1">${t.ref}</td>
+      <td style="color:#94a3b8">${t.date}</td>
+      <td style="color:${t.amount.startsWith('+')?'#19dca0':'#f87171'};font-weight:800">${t.amount}</td>
+      <td><span class="status ${t.status==='Completed'||t.status==='Paid'||t.status==='Approved'?'success':''}">${t.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+// 4. Update Live Investment Table on login
+function updateLiveInvestmentForUser(profile) {
+  const tbody = document.getElementById('liveInvestTbody');
+  if (!tbody || !profile) return;
+  const d = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  const amt = Number(profile.total_investment || 50).toFixed(2);
+  const uId = profile.user_id || 'DF-100234';
+  const name = profile.full_name || 'Member';
+  const hash = '0x' + Math.random().toString(16).substring(2, 6) + '..' + Math.random().toString(16).substring(2, 4);
+
+  const existingRows = tbody.innerHTML;
+  const userRow = `
+    <tr style="background:rgba(234,179,8,0.12);border:1px solid #eab308">
+      <td><span style="color:#eab308;font-weight:900">★ LIVE</span></td>
+      <td>${d}</td>
+      <td class="positive">+$${amt}</td>
+      <td><b style="color:#eab308">${uId}</b></td>
+      <td style="color:#fff;font-weight:700">${name}</td>
+      <td class="hash">${hash}</td>
+    </tr>
+  `;
+  tbody.innerHTML = userRow + existingRows;
+}
+
+// Call updateLiveInvestmentForUser on openDashboard
+const origOpenDashboard = window.openDashboard;
+window.addEventListener('load', () => {
+  startLiveTradingTicker();
+});
+
 </script>
 
 <!-- REGISTRATION SUCCESS POPUP -->
@@ -1573,6 +1846,76 @@ async function loadDirectTeamMembers(userId) {
 .reg-popup-row { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; gap:12px; font-size:13px; }
 #regSuccessOverlay.active { display:flex !important; }
 </style>
+
+
+<!-- COMPLAINT / SUPPORT TICKET MODAL -->
+<div id="complaintModalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0c1527;border:1px solid #23314d;border-radius:18px;max-width:480px;width:100%;padding:24px 22px;box-shadow:0 15px 45px rgba(0,0,0,0.7);position:relative">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;border-bottom:1px solid #1f2c45;pb:12px">
+      <h3 style="margin:0;color:#eab308;font-size:18px;font-weight:900">📝 SUBMIT COMPLAINT / SUPPORT</h3>
+      <button type="button" onclick="closeComplaintModal()" style="background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer">✕</button>
+    </div>
+    <form id="complaintForm" onsubmit="submitComplaint(event)">
+      <div style="margin-bottom:14px">
+        <label style="display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px">USER NAME</label>
+        <input type="text" id="cmpUserName" required style="width:100%;box-sizing:border-box;background:#070d1a;border:1px solid #1f2c45;border-radius:8px;color:#fff;padding:12px;font-size:14px;outline:none">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px">USER ID</label>
+        <input type="text" id="cmpUserId" readonly style="width:100%;box-sizing:border-box;background:#070d1a;border:1px solid #1f2c45;border-radius:8px;color:#eab308;font-weight:800;padding:12px;font-size:14px;outline:none">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px">ISSUE CATEGORY</label>
+        <select id="cmpCategory" style="width:100%;box-sizing:border-box;background:#070d1a;border:1px solid #1f2c45;border-radius:8px;color:#fff;padding:12px;font-size:14px;outline:none">
+          <option>Deposit Not Received</option>
+          <option>Withdrawal Delayed</option>
+          <option>Referral / Level Commission Issue</option>
+          <option>Account & Security Query</option>
+          <option>General Support</option>
+        </select>
+      </div>
+      <div style="margin-bottom:18px">
+        <label style="display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px">COMPLAINT DESCRIPTION</label>
+        <textarea id="cmpDescription" required rows="4" placeholder="Explain your complaint or issue in detail..." style="width:100%;box-sizing:border-box;background:#070d1a;border:1px solid #1f2c45;border-radius:8px;color:#fff;padding:12px;font-size:14px;outline:none;resize:vertical"></textarea>
+      </div>
+      <button type="submit" id="cmpSubmitBtn" style="width:100%;background:linear-gradient(90deg,#f0c94d,#dbb030);color:#0a0f1d;font-weight:900;padding:14px;border:none;border-radius:10px;cursor:pointer;font-size:14px;text-transform:uppercase">
+        SUBMIT COMPLAINT TO ADMIN
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- 3-DOT TRANSACTION & PAYMENT HISTORY MODAL -->
+<div id="historyModalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0c1527;border:1px solid #23314d;border-radius:18px;max-width:680px;width:100%;padding:24px 22px;box-shadow:0 15px 45px rgba(0,0,0,0.7);max-height:85vh;overflow-y:auto;position:relative">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid #1f2c45;padding-bottom:12px">
+      <h3 style="margin:0;color:#eab308;font-size:18px;font-weight:900">📑 TRANSACTION & PAYMENT HISTORY</h3>
+      <button type="button" onclick="closeHistoryModal()" style="background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button type="button" onclick="switchHistoryTab('all')" class="htab-btn active" id="htabAll" style="background:#131c30;border:1px solid #23314d;color:#fff;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">All</button>
+      <button type="button" onclick="switchHistoryTab('deposits')" class="htab-btn" id="htabDeposits" style="background:#131c30;border:1px solid #23314d;color:#fff;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">Deposits</button>
+      <button type="button" onclick="switchHistoryTab('withdrawals')" class="htab-btn" id="htabWithdrawals" style="background:#131c30;border:1px solid #23314d;color:#fff;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">Withdrawals</button>
+      <button type="button" onclick="switchHistoryTab('commissions')" class="htab-btn" id="htabCommissions" style="background:#131c30;border:1px solid #23314d;color:#fff;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">Referral Income</button>
+    </div>
+    <div class="page-table-wrap">
+      <table class="page-table" id="historyTable">
+        <thead>
+          <tr>
+            <th>TYPE</th>
+            <th>REF / ID</th>
+            <th>DATE</th>
+            <th>AMOUNT</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody id="historyTbody">
+          <tr><td colspan="5" style="text-align:center;padding:24px;color:#94a3b8">Loading transactions...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

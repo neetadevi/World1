@@ -326,6 +326,8 @@
         <button class="tab-btn active" data-tab="users">Members & Signups (<span id="tabCountUsers">0</span>)</button>
         <button class="tab-btn" data-tab="deposits">Deposit Requests (<span id="tabCountDeposits">0</span>)</button>
         <button class="tab-btn" data-tab="withdrawals">Withdrawal Requests (<span id="tabCountWithdrawals">0</span>)</button>
+        <button class="tab-btn" data-tab="referrals">Referral Network (<span id="tabCountReferrals">0</span>)</button>
+        <button class="tab-btn" data-tab="complaints">Complaints &amp; Support (<span id="tabCountComplaints">0</span>)</button>
       </div>
 
       <!-- CONTROL BAR -->
@@ -502,7 +504,23 @@
         if (res.ok) allWithdrawals = await res.json();
       } catch (e) { console.error('Fetch withdrawals error:', e); }
 
+      
+      // 4. Fetch Referral Commissions
+      try {
+        const res = await sbFetch('commissions?select=*&order=created_at.desc');
+        if (res.ok) allCommissions = await res.json();
+      } catch (e) { console.error('Fetch commissions error:', e); }
+
+      // 5. Fetch Complaints
+      try {
+        const res = await sbFetch('complaints?select=*&order=created_at.desc');
+        if (res.ok) allComplaints = await res.json();
+      } catch (e) { console.error('Fetch complaints error:', e); }
+
       renderDashboard();
+      renderReferralsTable(allCommissions);
+      renderComplaintsTable(allComplaints);
+
     }
 
     function renderDashboard() {
@@ -530,7 +548,80 @@
       renderWithdrawalsTable(allWithdrawals);
     }
 
-    function renderUsersTable(users) {
+    
+    let allCommissions = [];
+    let allComplaints = [];
+
+    function renderReferralsTable(comms) {
+      const tbody = document.getElementById('referralsTbody');
+      if (document.getElementById('tabCountReferrals')) {
+        document.getElementById('tabCountReferrals').textContent = comms ? comms.length : 0;
+      }
+      if (!tbody) return;
+      if (!comms || comms.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No referral commission records yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = comms.map(c => `
+        <tr>
+          <td><b style="color:var(--gold)">${c.sponsor_id || 'N/A'}</b></td>
+          <td><b>${c.from_user_id || 'N/A'}</b></td>
+          <td style="color:#fff;font-weight:700">${c.from_user_name || 'Member'}</td>
+          <td>Level ${c.level || 1}</td>
+          <td>${Number(c.investment_amount || 0).toFixed(2)}</td>
+          <td style="color:var(--green);font-weight:900">+${Number(c.commission_amount || 0).toFixed(2)}</td>
+          <td><span class="badge badge-approved">${c.status || 'Paid'}</span></td>
+          <td>${c.created_at ? new Date(c.created_at).toLocaleDateString('en-GB') : 'N/A'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderComplaintsTable(cmps) {
+      const tbody = document.getElementById('complaintsTbody');
+      if (document.getElementById('tabCountComplaints')) {
+        document.getElementById('tabCountComplaints').textContent = cmps ? cmps.length : 0;
+      }
+      if (!tbody) return;
+      if (!cmps || cmps.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No member complaints filed yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = cmps.map(cmp => {
+        const isResolved = cmp.status === 'Resolved';
+        return `
+          <tr>
+            <td><b style="color:var(--gold)">${cmp.complaint_id || 'N/A'}</b></td>
+            <td><b>${cmp.user_id || 'N/A'}</b></td>
+            <td style="color:#fff;font-weight:700">${cmp.user_name || 'Member'}</td>
+            <td style="color:var(--gold)">${cmp.subject || 'Support'}</td>
+            <td style="max-width:240px;font-size:12px;line-height:1.5">${cmp.description || ''}</td>
+            <td>${cmp.created_at ? new Date(cmp.created_at).toLocaleDateString('en-GB') : 'N/A'}</td>
+            <td><span class="badge ${isResolved ? 'badge-approved' : 'badge-pending'}">${cmp.status || 'Open'}</span></td>
+            <td>
+              ${!isResolved ? `
+                <button class="action-btn btn-approve" onclick="resolveComplaint('${cmp.complaint_id}')">✓ Mark Resolved</button>
+              ` : '<span style="color:var(--muted);font-size:11px">Resolved</span>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function resolveComplaint(cmpId) {
+      if (!confirm('Mark complaint ' + cmpId + ' as Resolved?')) return;
+      try {
+        await sbFetch('complaints?complaint_id=eq.' + encodeURIComponent(cmpId), {
+          method: 'PATCH',
+          body: JSON.stringify({ status: 'Resolved' })
+        });
+        alert('Complaint marked as Resolved!');
+        loadAdminData();
+      } catch (e) {
+        alert('Error updating complaint');
+      }
+    }
+
+function renderUsersTable(users) {
       const tbody = document.getElementById('usersTbody');
       if (!users || users.length === 0) {
         tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No registered members found.</td></tr>';
